@@ -1,0 +1,30 @@
+axes1 = axes();
+theta=linspace(0,2*pi,37);
+phi=linspace(-pi/2,pi/2,19);
+[theta,phi]=meshgrid(theta,phi);
+r=1+0*theta;
+[x,y,z]=sph2cart(theta,phi,r);
+mesh(x,y,z,'FaceColor','none')
+hold on%作用是保持原图并接受此后绘制的新的曲线，叠加绘图；
+r=1;
+theta=pi/6;
+phi=pi/4;
+x1=r.* sin(theta).* cos(phi);
+y1=r.* sin(theta).* sin(phi);
+z1=r.* cos(theta);
+rho=1;
+alpha=pi/4;
+beta=pi/6;
+x2=rho.* sin(alpha).* cos(beta);
+y2=rho.* cos(alpha).* sin(beta);
+z2=rho.* cos(alpha);
+scatter3( x1,y1,z1,'DisplayName','b');
+scatter3( x2,y2,z2,'DisplayName','b');
+line([0.0,x1],[0.0,y1],[0.0,z1]);
+line([0.0,x2],[0.0,y2],[0.0,z2]);
+line([x1,x2],[y1,y2],[z1,z2]);
+box off;
+grid off;
+%grid(axes1,'on');
+set(axes1,'XTick',[-1,-0.75,-0.5,-0.25,0 0.25 0.5 0.75 1],'YTick',[-1,-0.75,-0.5,-0.25,0 0.25 0.5 0.75 1],'ZTick',[-1,-0.75,-0.5,-0.25,0 0.25 0.5 0.75 1]);
+%Plot3AxisAtOrigin(sin([-3:.3:6]),cos([-3:.3:6])-0.75,[-1:.1:2],'r');
