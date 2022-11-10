@@ -1,0 +1,37 @@
+A=[0 0];
+B=[3 0];
+C=[1.5,1.5*sqrt(3)];
+
+[center,r]=inscribedCircle(A,B,C);
+
+circle(center(1),center(2),r);
+line([A(1),B(1)],[A(2),B(2)],'LineStyle','-','LineWidth',1);
+line([A(1),C(1)],[A(2),C(2)],'LineStyle','-','LineWidth',1);
+line([B(1),C(1)],[B(2),C(2)],'LineStyle','-','LineWidth',1);
+line([A(1),center(1)],[A(2),center(2)],'LineStyle','--','LineWidth',1);
+line([B(1),center(1)],[B(2),center(2)],'LineStyle','--','LineWidth',1);
+line([C(1),center(1)],[C(2),center(2)],'LineStyle','--','LineWidth',1);
+text(A(1),A(2),'A','HorizontalAlignment','left','FontSize',12);
+text(B(1),B(2),'B','HorizontalAlignment','left','FontSize',12);
+text(C(1),C(2),'C','HorizontalAlignment','left','FontSize',12);
+text(center(1),center(2),'O','HorizontalAlignment','left','FontSize',12);
+D=0.5*A+0.5*C;
+text(D(1),D(2),'D','HorizontalAlignment','left','FontSize',12);
+line([D(1),center(1)],[D(2),center(2)],'LineStyle','--','LineWidth',1);
+O=center;
+AD=D-A;
+BD=D-B;
+BO=O-B;
+AB=B-A;
+EO=AD*norm(BO)/norm(BD);
+E=O-EO;
+text(E(1),E(2),'E','HorizontalAlignment','left','FontSize',12);
+line([E(1),center(1)],[E(2),center(2)],'LineStyle','--','LineWidth',1);
+OD=D-O;
+F=E+OD;
+text(F(1),F(2),'F','HorizontalAlignment','left','FontSize',12);
+line([E(1),F(1)],[E(2),F(2)],'LineStyle','--','LineWidth',1);
+AG=AB*norm(AD)/norm(AB);
+G=A+AG;
+text(G(1),G(2),'G','HorizontalAlignment','left','FontSize',12);
+line([O(1),G(1)],[O(2),G(2)],'LineStyle','--','LineWidth',1);

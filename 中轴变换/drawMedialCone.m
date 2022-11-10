@@ -34,10 +34,10 @@ set(h2,'FaceColor',[0.88, 0.84, 0.76],'FaceAlpha',p.Results.FaceAlpha,'FaceLight
 %set(h2, 'FaceColor', [1 0 0])
 daspect([1 1 1]);
 
-% if p.Results.drawCircle
-%     drawCircle(c1,u1,cv,r1);
-%     drawCircle(c2,u2,cv,r2);
-% end
+if p.Results.drawCircle
+    drawCircle(c1,u1,cv,r1);
+    drawCircle(c2,u2,cv,r2);
+end
 if p.Results.drawLine
     line([c1(1),c2(1)],[c1(2),c2(2)],[c1(3),c2(3)],'LineWidth',2,'Color','magenta');
     line([c1(1),L1(1)],[c1(2),L1(2)],[c1(3),L1(3)],'LineWidth',1);

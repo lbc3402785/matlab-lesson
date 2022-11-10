@@ -1,57 +1,51 @@
-c1=[2,6,4];
-c2=[5,-2,-2];
-c3=[10,4,3];
+c1=[2,1,0];
+c2=[5,-4,0];
+c3=[-1,3,0];
+c4=[7,5,0];
 
-V1=[4,-1,8];
+center=(c1+c2+c3)/3;
+r1=2;
+r2=1.5;
+r3=2.5;
+r4=2.5;
+
 c12=c2-c1;
 c13=c3-c1;
-c1v1=V1-c1;
-n=cross(c12,c13);
-center=(c1+c2+c3)/3;
-n=n/norm(n);
-top=center+n;
-length=dot(n,c1v1);
-O=V1-length*n;
-c1pv=O-c1;
-length=dot(c12,c1pv)/norm(c12);
-A=c1+length*c12/norm(c12);
-length=dot(c13,c1pv)/norm(c13);
-B=c1+length*c13/norm(c13);
-n12=A-O;
-n12=n12/norm(n12);
-t12=center+n12;
-n13=B-O;
-n13=n13/norm(n13);
-length=dot(A-O,-n13);
-h=O-length*n13;
+fn=cross(c12,c13);
+fn=fn/norm(fn);
 
-text(c1(1),c1(2),c1(3),'c1','HorizontalAlignment','left','FontSize',12);
-text(c2(1),c2(2),c2(3),'c2','HorizontalAlignment','left','FontSize',12);
-text(c3(1),c3(2),c3(3),'c3','HorizontalAlignment','left','FontSize',12);
-text(V1(1),V1(2),V1(3),'V1','HorizontalAlignment','left','FontSize',12);
-text(A(1),A(2),A(3),'A','HorizontalAlignment','left','FontSize',12);
-text(B(1),B(2),B(3),'B','HorizontalAlignment','left','FontSize',12);
-text(O(1),O(2),O(3),'O','HorizontalAlignment','left','FontSize',12);
-text(top(1),top(2),top(3),'n','HorizontalAlignment','left','FontSize',12);
-text(t12(1),t12(2),t12(3),'n12','HorizontalAlignment','left','FontSize',12);
-text(h(1),h(2),h(3),'h','HorizontalAlignment','left','FontSize',12);
+
+[V1_UP,V1_DOWN,O1,A1,B1,V2_UP,V2_DOWN,O2,A2,B2,V4_UP,V4_DOWN,O4,A4,B4]=drawMedialSlab(c1,c2,c4,r1,r2,r4,180,64,false,false,false);
+
+%[V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3,V4_UP,V4_DOWN,O4,A4,B4]=drawMedialSlab(c2,c3,c4,r2,r3,r4,180,64,false,false,false);
+% fn_skim=A1-O1;
+% fn_skim=fn_skim/norm(fn_skim);
+% text(c1(1)+fn(1)*0.2+fn_skim(1)*0.4,c1(2)+fn(2)*0.2+fn_skim(2)*0.4,c1(3)+fn(3)*0.2+fn_skim(3)*0.4,'c1','HorizontalAlignment','left','FontSize',12,'Color','red');  
+% text(c2(1)+fn(1)*0.1,c2(2)+fn(2)*0.1,c2(3)+fn(3)*0.1,'c2','HorizontalAlignment','left','FontSize',12,'Color','red');
+% text(c3(1)+fn(1)*0.1,c3(2)+fn(2)*0.1,c3(3)+fn(3)*0.1,'c3','HorizontalAlignment','left','FontSize',12,'Color','red');
+% line([V1_UP(1),c1(1)],[V1_UP(2),c1(2)],[V1_UP(3),c1(3)],'LineStyle','-','LineWidth',1,'Color','black');
+% line([V2_UP(1),c2(1)],[V2_UP(2),c2(2)],[V2_UP(3),c2(3)],'LineStyle','-','LineWidth',1,'Color','black');
+% line([V3_UP(1),c3(1)],[V3_UP(2),c3(2)],[V3_UP(3),c3(3)],'LineStyle','-','LineWidth',1,'Color','black');
+% 
+% line([V1_UP(1),V2_UP(1)],[V1_UP(2),V2_UP(2)],[V1_UP(3),V2_UP(3)],'LineStyle','-','LineWidth',1,'Color','black');
+% line([V1_UP(1),V3_UP(1)],[V1_UP(2),V3_UP(2)],[V1_UP(3),V3_UP(3)],'LineStyle','-','LineWidth',1,'Color','black');
+% line([V2_UP(1),V3_UP(1)],[V2_UP(2),V3_UP(2)],[V2_UP(3),V3_UP(3)],'LineStyle','-','LineWidth',1,'Color','black');
+% line([O1(1),c1(1)],[O1(2),c1(2)],[O1(3),c1(3)],'LineStyle','-','LineWidth',1,'Color','black');
+% 
+% text(V1_UP(1)+fn(1)*0.1,V1_UP(2)+fn(2)*0.1,V1_UP(3)+fn(3)*0.1,sprintf('$$V_{1}$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',12,'Color','red');
+% text(V2_UP(1)+fn(1)*0.1,V2_UP(2)+fn(2)*0.1,V2_UP(3)+fn(3)*0.1,sprintf('$$V_{2}$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',12,'Color','red');
+% text(V3_UP(1)+fn(1)*0.1,V3_UP(2)+fn(2)*0.1,V3_UP(3)+fn(3)*0.1,sprintf('$$V_{3}$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',12,'Color','red');
+% line([V1_UP(1),O1(1)],[V1_UP(2),O1(2)],[V1_UP(3),O1(3)],'LineStyle','--','LineWidth',1,'Color','black');
+
 hold on;
-quiver3(center(1),center(2),center(3),n(1),n(2),n(3));
-quiver3(center(1),center(2),center(3),n12(1),n12(2),n12(3));
-
-%line([center(1),top(1)],[center(2),top(2)],[center(3),top(3)],'LineStyle','--','LineWidth',1,'Color','cyan');
-line([c1(1),c2(1)],[c1(2),c2(2)],[c1(3),c2(3)],'LineWidth',1,'Color','magenta');
-line([c2(1),c3(1)],[c2(2),c3(2)],[c2(3),c3(3)],'LineWidth',1,'Color','magenta');
-line([c3(1),c1(1)],[c3(2),c1(2)],[c3(3),c1(3)],'LineWidth',1,'Color','magenta');
-
-line([c1(1),V1(1)],[c1(2),V1(2)],[c1(3),V1(3)],'LineWidth',1,'Color','black');
-line([c1(1),O(1)],[c1(2),O(2)],[c1(3),O(3)],'LineWidth',1,'Color','black');
-line([V1(1),O(1)],[V1(2),O(2)],[V1(3),O(3)],'LineStyle','--','LineWidth',1,'Color','black');
-line([A(1),O(1)],[A(2),O(2)],[A(3),O(3)],'LineStyle','--','LineWidth',1,'Color','black');
-line([B(1),O(1)],[B(2),O(2)],[B(3),O(3)],'LineStyle','--','LineWidth',1,'Color','black');
-line([A(1),V1(1)],[A(2),V1(2)],[A(3),V1(3)],'LineStyle','--','LineWidth',1,'Color','black');
-line([B(1),V1(1)],[B(2),V1(2)],[B(3),V1(3)],'LineStyle','--','LineWidth',1,'Color','black');
-line([O(1),h(1)],[O(2),h(2)],[O(3),h(3)],'LineStyle','--','LineWidth',1,'Color','cyan');
-line([A(1),h(1)],[A(2),h(2)],[A(3),h(3)],'LineStyle','--','LineWidth',1,'Color','cyan');
-line([V1(1),h(1)],[V1(2),h(2)],[V1(3),h(3)],'LineStyle','--','LineWidth',1,'Color','cyan');
+% quiver3(center(1)+fn(1)*0.4,center(2)+fn(2)*0.4,center(3)+fn(3)*0.4,fn(1),fn(2),fn(3),1,'Color','blue','LineWidth',1,'MaxHeadSize',1);
+% quiver3(center(1)+fn(1)*0.4,center(2)+fn(2)*0.4,center(3)+fn(3)*0.4,fn_skim(1),fn_skim(2),fn_skim(3),1,'Color','red','LineWidth',1,'MaxHeadSize',2);
+% top=center+fn*1.2;
+% skim=center+fn_skim*1.2;
+% text(top(1),top(2),top(3),sprintf('$$\\overrightarrow{n}$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',12);
+% text(skim(1)+fn(1)*0.1,skim(2)+fn(2)*0.1,skim(3)+fn(3)*0.1,sprintf('$$\\overrightarrow{t}$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',12);
+grid off;
+hold off;
 axis off;
+light('Color',[0.8, 0.8, 0.8],'Position',[10 10 -10],'Style','infinite');
+camlight;
