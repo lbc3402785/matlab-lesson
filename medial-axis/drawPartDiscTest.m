@@ -1,0 +1,23 @@
+% O = [-1, 1, 10];
+% r = 1.5;
+% n = [3, -2, 1];
+% n=n/norm(n);
+% u=[1,2,1];
+% u=u/norm(u);
+% radian=2.7*pi/3;
+O = [0, 3, 0];%[0, -3, 0]
+r = 2;
+n = [0, -1, 0];
+n=n/norm(n);
+u=[0.8575, 0,-0.5145];
+u=u/norm(u);
+radian=1.7431;
+drawPartDisc(O,r,n,u,radian);
+[bottom,top]=computeBoundBoxForPartDisc(O,r,n,u,radian);
+draw3DBoundingBox(bottom(1),bottom(2),bottom(3),top(1),top(2),top(3),'color','blue');
+grid off;
+hold off;
+%axis off;
+light('Color',[0.8, 0.8, 0.8],'Position',[10 10 -10],'Style','infinite');
+camlight;
+axis equal;

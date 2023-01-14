@@ -1,4 +1,4 @@
-function [smallCenter,base,bigCenter,top]=drawPartMedialCone(c1,c2,r1,r2,L1,R1,L2,R2,cv,axis,radian,m,n,varargin)
+function [smallCenter,base,bigCenter,top1]=drawPartMedialCone(c1,c2,r1,r2,L1,R1,L2,R2,cv,axis,radian,m,n,varargin)
 %函数的功能：
 %函数的描述：
 %函数的使用：y=func(input1,input2)
@@ -27,6 +27,7 @@ addParameter(p,'drawCone',true);      % 设置变量名和默认参数
 addParameter(p,'drawLine',false);      % 设置变量名和默认参数
 addParameter(p,'drawCircle',false);      % 设置变量名和默认参数
 addParameter(p,'FaceAlpha',0.5);      % 设置变量名和默认参数
+addParameter(p,'FaceColor','cyan');      % 设置变量名和默认参数
 parse(p,varargin{:});       % 对输入变量进行解析，如果检测到前面的变量被赋值，则更新变量取值
 
 
@@ -48,12 +49,15 @@ if p.Results.drawSphere
     set(h2,'FaceColor',[0.88, 0.84, 0.76],'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor','none')
     %set(h2,'FaceColor',[0.807 0.6390 0.6156],'FaceAlpha',0.5,'FaceLighting','gouraud','EdgeColor','none')
     %set(h2, 'FaceColor', [1 0 0])
+    hold on;
 end
 daspect([1 1 1]);
 
 if p.Results.drawCircle
     drawCircle(c1,u1,cv,r1);
+    hold on;
     drawCircle(c2,u2,cv,r2);
+    hold on;
 end
 if p.Results.drawLine
     line([c1(1),c2(1)],[c1(2),c2(2)],[c1(3),c2(3)],'LineWidth',2,'Color','magenta');
@@ -70,14 +74,30 @@ if p.Results.drawCircle
     [X2,Y2,Z2]=drawCircleSector(slabCone.bigCenter,axis,cv,slabCone.top,180,'Color','cyan');
 end
 if p.Results.drawCone
-    if p.Results.drawCircle==false
-        [X1,Y1,Z1]=createCircleSector(slabCone.smallCenter,cv,axis,radian,slabCone.base,m);
-        [X2,Y2,Z2]=createCircleSector(slabCone.bigCenter,cv,axis,radian,slabCone.top,m);
-    end
-    drawCone(X1,Y1,Z1,X2,Y2,Z2,n,'mode',p.Results.mode,'FaceAlpha',p.Results.FaceAlpha);
+
+    [X1,Y1,Z1]=createCircleSector(slabCone.smallCenter,cv,axis,radian,slabCone.base,m);
+    [X2,Y2,Z2]=createCircleSector(slabCone.bigCenter,cv,axis,radian,slabCone.top,m);
+ 
+    drawCone(X1,Y1,Z1,X2,Y2,Z2,n,'mode',p.Results.mode,'FaceAlpha',p.Results.FaceAlpha,'FaceColor',p.Results.FaceColor);
+    hold on;
+    %draw the hidden part
+%     [X1,Y1,Z1]=createCircleSector(slabCone.smallCenter,-cv,axis,pi-radian,slabCone.base,m);
+%     [X2,Y2,Z2]=createCircleSector(slabCone.bigCenter,-cv,axis,pi-radian,slabCone.top,m);
+%     drawCone(X1,Y1,Z1,X2,Y2,Z2,n,'mode',p.Results.mode,'FaceAlpha',p.Results.FaceAlpha,'FaceColor','magenta');
 end
 if p.Results.drawLine
     line([L1(1),L2(1)],[L1(2),L2(2)],[L1(3),L2(3)],'LineWidth',2,'Color','m');
     line([R1(1),R2(1)],[R1(2),R2(2)],[R1(3),R2(3)],'LineWidth',2,'Color','m');
 end
+%draw bounding box
+[b1,t1]=computeBoundBoxForPartDisc(slabCone.smallCenter,slabCone.base,axis,cv,radian);
+[b2,t2]=computeBoundBoxForPartDisc(slabCone.bigCenter,slabCone.top,axis,cv,radian);
+bottom1=[min(b1(1),b2(1)),min(b1(2),b2(2)),min(b1(3),b2(3))];
+top1=[max(t1(1),t2(1)),max(t1(2),t2(2)),max(t1(3),t2(3))];
+% draw3DBoundingBox(b1(1),b1(2),b1(3),t1(1),t1(2),t1(3),'color','green');
+% draw3DBoundingBox(b2(1),b2(2),b2(3),t2(1),t2(2),t2(3),'color','blue');
+draw3DBoundingBox(bottom1(1),bottom1(2),bottom1(3),top1(1),top1(2),top1(3),'color','blue');
+hold on;
+% [bottom2,top2]=computeBoundBoxForFrustumCone(slabCone.smallCenter,slabCone.base,slabCone.bigCenter,slabCone.top);
+% draw3DBoundingBox(bottom2(1),bottom2(2),bottom2(3),top2(1),top2(2),top2(3),'color','blue');
 end

@@ -5,7 +5,7 @@ end
 p = inputParser;            % 函数的输入解析器
 addParameter(p,'mode','face');      % 设置变量名和默认参数
 addParameter(p,'FaceAlpha',0.5);      % 设置变量名和默认参数
-addParameter(p,'Color','cyan');      % 设置变量名和默认参数
+addParameter(p,'FaceColor','cyan');      % 设置变量名和默认参数
 addParameter(p,'EdgeColor','none');      % 设置变量名和默认参数
 parse(p,varargin{:});       % 对输入变量进行解析，如果检测到前面的变量被赋值，则更新变量取值
 if strcmp(p.Results.mode,'face')==1
@@ -22,7 +22,7 @@ if strcmp(p.Results.mode,'face')==1
     end
     
     h=surf(X,Y,Z);
-    set(h,'FaceColor','cyan','FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor',p.Results.EdgeColor)
+    set(h,'FaceColor',p.Results.FaceColor,'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor',p.Results.EdgeColor)
 elseif strcmp(p.Results.mode,'line')==1
     for i=1:size(X1(:,1))
         X=[X1(i),X2(i)];

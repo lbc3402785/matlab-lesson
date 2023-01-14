@@ -16,6 +16,7 @@ if(~exist('b1','var'))
 end
 p = inputParser;            % 函数的输入解析器
 addParameter(p,'drawSphere',true);      % 设置变量名和默认参数
+addParameter(p,'FaceColor','cyan');      % 设置变量名和默认参数
 addParameter(p,'FaceAlpha',0.5);      % 设置变量名和默认参数
 parse(p,varargin{:});       % 对输入变量进行解析，如果检测到前面的变量被赋值，则更新变量取值
 %--------------------------------------------------------------------------
@@ -36,8 +37,27 @@ Y=P(2,:);
 Z=P(3,:);
 T=[1,2,3];
 trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
-
-[st0,st1,success]=TriangleFromThreeSpheres(c1,r1,c2,r2,c3,r3);
+hold on;
+%be sure the first sphere is the biggest sphere
+pos=[c1;c2;c3];
+radius=[r1;r2;r3];
+if radius(1)<radius(2)
+    tmp=pos(1,:);
+    pos(1,:)=pos(2,:);
+    pos(2,:)=tmp;
+    tmpR=radius(1);
+    radius(1)=radius(2);
+    radius(2)=tmpR;
+end
+if radius(1)<radius(3)
+    tmp=pos(1,:);
+    pos(1,:)=pos(3,:);
+    pos(3,:)=tmp;
+    tmpR=radius(1);
+    radius(1)=radius(3);
+    radius(3)=tmpR;
+end
+[st0,st1,success]=TriangleFromThreeSpheres(pos(1,:),radius(1),pos(2,:),radius(2,:),pos(3,:),radius(3));
 if ~success
     disp('TriangleFromThreeSpheres error!');
     return;
@@ -67,15 +87,16 @@ if p.Results.drawSphere
     z3=z3*r3+c3(3);
     h3 = surf(x3, y3, z3);
     set(h3,'FaceColor',[0.88, 0.84, 0.76],'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor','none')
+    hold on;
 end
 daspect([1 1 1]);
 %--------------------------------------------------
-P=transpose([c1;c2;c3]);
-X=P(1,:);
-Y=P(2,:);
-Z=P(3,:);
-T=[1,2,3];
-trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
+% P=transpose([c1;c2;c3]);
+% X=P(1,:);
+% Y=P(2,:);
+% Z=P(3,:);
+% T=[1,2,3];
+% trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
 
 n0=st0.normal;
 n1=st1.normal;
@@ -111,5 +132,6 @@ hold on;
 
 
 %draw slab cone
-drawPartMedialCone(c1,c2,r1,r2,V1_UP,V1_DOWN,V2_UP,V2_DOWN,cv12,c12,radian12,m,n,'drawSphere',false,'drawLine',true);
+drawPartMedialCone(c1,c2,r1,r2,V1_UP,V1_DOWN,V2_UP,V2_DOWN,cv12,c12,radian12,m,n,'drawSphere',false,'drawLine',false,'FaceColor',p.Results.FaceColor);
+hold on;
 end

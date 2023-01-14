@@ -1,12 +1,14 @@
-c1=[-5,1,0];
-c2=[0,3,0];
-c3=[0,-3,0];
+
+c1=[1,3,0];
+c2=[0,-3,2];
+c3=[-5,1,3];
 c4=[5,2,4];
 
 center=(c1+c2+c3)/3;
-r1=1;
+
+r1=2;
 r2=2;
-r3=2;
+r3=1;
 r4=1.5;
 
 c12=c2-c1;
@@ -16,7 +18,8 @@ fn=fn/norm(fn);
 
 
 % [V1_UP,V1_DOWN,O1,A1,B1,V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,false,false,false);
-drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,false,false,false);
+drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,false,false,false,'FaceColor','cyan');
+drawMedialSlab(c1,c2,c4,r1,r2,r4,180,64,false,false,false,'FaceColor','red');
 
 %[V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3,V4_UP,V4_DOWN,O4,A4,B4]=drawMedialSlab(c2,c3,c4,r2,r3,r4,180,64,false,false,false);
 % fn_skim=A1-O1;

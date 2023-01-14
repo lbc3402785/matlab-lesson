@@ -1,4 +1,23 @@
 function [slabCone]=computeSlabCone(c0,r0,c1,r1)
+    c02c1 = c1-c0;
+    if (norm(c02c1) - abs(r1 - r0) < 1e-8)
+        disp('one sphere is included in another sphere!');
+        return;
+    end
+    if (norm(c02c1) < 1e-8)
+        disp('two sphere coincide!');
+        return;
+    end
+    dr0r1 = abs(r0-r1);
+    if (dr0r1 < 1e-8)
+        slabCone.smallCenter = c0;
+        slabCone.axis = c1-c0;
+        slabCone.axis=slabCone.axis/norm(slabCone.axis);
+        slabCone.base = r0;
+        slabCone.top = r1;
+        slabCone.bigCenter=c1;
+        return;
+    end
     slabCone.apex=(r1 * c0 - r0 * c1) / (r1 - r0);
     slabCone.axis=c1-c0;
     if (r0>r1)

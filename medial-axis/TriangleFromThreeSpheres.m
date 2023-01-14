@@ -64,8 +64,21 @@ function [st0,st1,success]=TriangleFromThreeSpheres(c0,r0,c1,r1,c2,r2)
             st1.normal=st1.normal/norm(st1.normal);
         end
     else
-        apex0 = (r2 * c0 - r0 * c2) / (r2 - r0);%apex0 for c0 and c2
-        apex1 = (r0 * c1 - r1 * c0) / (r0 - r1);%apex1 for c0 and c1
+        if (dr0r1 < 1e-8)
+            apex0 = (r2 * c0 - r0 * c2) / (r2 - r0);%apex0 for c0 and c2
+            apex1 = (r2 * c1 - r1 * c2) / (r2 - r1);%apex1 for c1 and c2
+        elseif (dr0r2 < 1e-8)
+            apex0 = (r1 * c0 - r0 * c1) / (r1 - r0);%apex0 for c0 and c1
+            apex1 = (r2 * c1 - r1 * c2) / (r2 - r1);%apex1 for c1 and c2  
+        elseif (dr1r2 < 1e-8)
+            apex0 = (r2 * c0 - r0 * c2) / (r2 - r0);%apex0 for c0 and c2
+            apex1 = (r0 * c1 - r1 * c0) / (r0 - r1);%apex1 for c0 and c1
+        else
+            apex0 = (r2 * c0 - r0 * c2) / (r2 - r0);%apex0 for c0 and c2
+            apex1 = (r0 * c1 - r1 * c0) / (r0 - r1);%apex1 for c0 and c1
+        end
+%         apex0 = (r2 * c0 - r0 * c2) / (r2 - r0);%apex0 for c0 and c2
+%         apex1 = (r0 * c1 - r1 * c0) / (r0 - r1);%apex1 for c0 and c1
         [distc0,fp,success]=DistanceToLine(c0,apex0,apex1);
         if success
             sangle = r0/distc0;
