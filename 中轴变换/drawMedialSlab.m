@@ -21,15 +21,15 @@ c21=-c12;
 c31=-c13;
 c32=-c23;
 
-[~,~,~,~,~,cos_phi_21,~]=drawMedialCone(c1,c2,r1,r2,m,n,'mode','face','drawLine',false,'drawCircle',false,'drawCone',true,'FaceAlpha',1);
-[~,~,~,~,~,cos_phi_31,~]=drawMedialCone(c1,c3,r1,r3,m,n,'mode','face','drawLine',false,'drawCircle',false,'drawCone',true,'FaceAlpha',1);
-[~,~,~,~,~,cos_phi_32,~]=drawMedialCone(c2,c3,r2,r3,m,n,'mode','face','drawLine',false,'drawCircle',false,'drawCone',true,'FaceAlpha',1);
-% P=transpose([c1;c2;c3]);
-% X=P(1,:);
-% Y=P(2,:);
-% Z=P(3,:);
-% T=[1,2,3];
-% trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',0.1);
+[~,~,~,~,~,cos_phi_21,~]=drawMedialCone(c1,c2,r1,r2,m,n,'mode','face','drawLine',false,'drawCircle',false,'drawCone',true,'FaceAlpha',0.5);
+[~,~,~,~,~,cos_phi_31,~]=drawMedialCone(c1,c3,r1,r3,m,n,'mode','face','drawLine',false,'drawCircle',false,'drawCone',true,'FaceAlpha',0.5);
+[~,~,~,~,~,cos_phi_32,~]=drawMedialCone(c2,c3,r2,r3,m,n,'mode','face','drawLine',false,'drawCircle',false,'drawCone',true,'FaceAlpha',0.5);
+P=transpose([c1;c2;c3]);
+X=P(1,:);
+Y=P(2,:);
+Z=P(3,:);
+T=[1,2,3];
+trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
 
 [V1_UP,V1_DOWN,O1,A1,B1]=getSlabTangentPair(c1,r1,c12,c13,-cos_phi_21,-cos_phi_31,'drawLine',b1);
 

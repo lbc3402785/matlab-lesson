@@ -4,16 +4,17 @@ c2=[10,6,0];
 r1=1;
 r2=3;
 %r3=2;
-[L1,R1,L2,R2,d0,cos_phi,sin_phi]=drawMedialCone(c1,c2,r1,r2,180,64,'FaceAlpha',0.5);
+[L1,R1,L2,R2,slabCone,cv]=drawMedialCone(c1,c2,r1,r2,180,64,'FaceAlpha',0.5);
 
-d0=d0/norm(d0);
-phi=acos(cos_phi);
-[X,Y,Z,pos]=createRadianArc(c2,phi,L2-c2,cross(c2-c1,L2-c2),r2*0.1);
+d0=cv/norm(cv);
+phi=acos(sqrt(1-slabCone.cosThetaSqr));
 line([L2(1),c2(1)],[L2(2),c2(2)],[L2(3),c2(3)],'LineWidth',1);
 line([c1(1),c2(1)],[c1(2),c2(2)],[c1(3),c2(3)],'LineWidth',1);
+[X,Y,Z,pos]=createRadianArc(c2,phi,L2-c2,cross(c2-c1,L2-c2),r2*0.1);
 plot3(X,Y,Z,'Color','red','LineWidth',2);
 text(pos(1),pos(2),pos(3),sprintf('$$\\phi$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',16);
 hold on;
+
 quiver3(c2(1),c2(2),c2(3),r2*d0(1),r2*d0(2),r2*d0(3),1.0,'LineWidth',1,'MaxHeadSize',0.4);
 top=c2+r2*d0;
 text(top(1),top(2),top(3),sprintf('$$\\overrightarrow{d_{0}}$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',16);

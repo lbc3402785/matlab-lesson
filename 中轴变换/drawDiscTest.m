@@ -1,0 +1,11 @@
+O = [0, 0, 0];
+r = 2;
+n = [-3, 1, 1];
+n=n/norm(n);
+drawDisc(O,r,n);
+grid off;
+hold off;
+axis off;
+light('Color',[0.8, 0.8, 0.8],'Position',[10 10 -10],'Style','infinite');
+camlight;
+axis equal;

@@ -1,0 +1,15 @@
+O = [0, 0, 0];
+r = 2;
+n = [1, 2, 1];
+n=n/norm(n);
+u=[-1,1,-1];
+u=u/norm(u);
+drawPartDisc(O,r,n,u,pi/3);
+[bottom,top]=computeBoundBoxForPartDisc(O,r,n,u,pi/3);
+draw3DBoundingBox(bottom(1),bottom(2),bottom(3),top(1),top(2),top(3),'color','blue');
+grid off;
+hold off;
+axis off;
+light('Color',[0.8, 0.8, 0.8],'Position',[10 10 -10],'Style','infinite');
+camlight;
+axis equal;

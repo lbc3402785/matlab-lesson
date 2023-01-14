@@ -15,9 +15,10 @@ fn=cross(c12,c13);
 fn=fn/norm(fn);
 
 
-[V1_UP,V1_DOWN,O1,A1,B1,V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,false,false,false);
+% [V1_UP,V1_DOWN,O1,A1,B1,V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,false,false,false);
+drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,false,false,false);
 
-[V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3,V4_UP,V4_DOWN,O4,A4,B4]=drawMedialSlab(c2,c3,c4,r2,r3,r4,180,64,false,false,false);
+%[V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3,V4_UP,V4_DOWN,O4,A4,B4]=drawMedialSlab(c2,c3,c4,r2,r3,r4,180,64,false,false,false);
 % fn_skim=A1-O1;
 % fn_skim=fn_skim/norm(fn_skim);
 % text(c1(1)+fn(1)*0.2+fn_skim(1)*0.4,c1(2)+fn(2)*0.2+fn_skim(2)*0.4,c1(3)+fn(3)*0.2+fn_skim(3)*0.4,'c1','HorizontalAlignment','left','FontSize',12,'Color','red');  
