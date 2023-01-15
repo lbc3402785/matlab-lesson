@@ -1,0 +1,16 @@
+center=[1,1,3];
+radius=1;
+u=[2,-2,3];
+u=u/norm(u);
+radian=2*pi/3;
+drawSphericalCap(center,radius,u,radian);
+[bottom,top]=computeBoundingBoxForSphericalCap(u,radian);
+bottom=bottom*radius+center;
+top=top*radius+center;
+draw3DBoundingBox(bottom(1),bottom(2),bottom(3),top(1),top(2),top(3),'color','blue');
+grid off;
+hold off;
+axis off;
+light('Color',[0.8, 0.8, 0.8],'Position',[10 10 -10],'Style','infinite');
+camlight;
+axis equal;

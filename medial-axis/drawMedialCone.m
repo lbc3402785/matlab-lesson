@@ -20,8 +20,19 @@ if (abs(slabCone.axis(1))>abs(slabCone.axis(2)))
 else
     cv=[0,slabCone.axis(3),-slabCone.axis(2)];
 end
-L1 = slabCone.smallCenter+slabCone.base*cv; L2 = slabCone.bigCenter+slabCone.top*cv; % 左线切点
-R1 = slabCone.smallCenter-slabCone.base*cv; R2 = slabCone.bigCenter-slabCone.top*cv; % 右线切点
+cv=cv/norm(cv);
+if(r1<r2)
+    L1 = slabCone.smallCenter+slabCone.base*cv; 
+    L2 = slabCone.bigCenter+slabCone.top*cv; % 左线切点
+    R1 = slabCone.smallCenter-slabCone.base*cv; 
+    R2 = slabCone.bigCenter-slabCone.top*cv; % 右线切点
+else
+    L2 = slabCone.smallCenter+slabCone.base*cv; 
+    L1 = slabCone.bigCenter+slabCone.top*cv; % 左线切点
+    R2 = slabCone.smallCenter-slabCone.base*cv; 
+    R1 = slabCone.bigCenter-slabCone.top*cv; % 右线切点
+end
+
 [x1,y1,z1] = sphere(128);
 x1=x1*r1+c1(1);
 y1=y1*r1+c1(2);
@@ -63,10 +74,8 @@ if p.Results.drawCircle
     [X2,Y2,Z2]=drawCircle(slabCone.bigCenter,cv,slabCone.axis,slabCone.top,180,'Color','cyan');
 end
 if p.Results.drawCone
-    if p.Results.drawCircle==false
-        [X1,Y1,Z1]=createCircle(slabCone.smallCenter,cv,slabCone.axis,slabCone.base,m);
-        [X2,Y2,Z2]=createCircle(slabCone.bigCenter,cv,slabCone.axis,slabCone.top,m);
-    end
+    [X1,Y1,Z1]=createCircle(slabCone.smallCenter,cv,slabCone.axis,slabCone.base,m);
+    [X2,Y2,Z2]=createCircle(slabCone.bigCenter,cv,slabCone.axis,slabCone.top,m);
     drawCone(X1,Y1,Z1,X2,Y2,Z2,n,'mode',p.Results.mode,'FaceAlpha',p.Results.FaceAlpha);
 end
 if p.Results.drawLine

@@ -22,7 +22,7 @@ if strcmp(p.Results.mode,'face')==1
     end
     
     h=surf(X,Y,Z);
-    set(h,'FaceColor',p.Results.FaceColor,'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor',p.Results.EdgeColor)
+    set(h,'FaceColor',p.Results.FaceColor,'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor',p.Results.EdgeColor);
 elseif strcmp(p.Results.mode,'line')==1
     for i=1:size(X1(:,1))
         X=[X1(i),X2(i)];

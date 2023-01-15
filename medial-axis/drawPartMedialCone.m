@@ -26,7 +26,7 @@ addParameter(p,'drawSphere',true);      % 设置变量名和默认参数
 addParameter(p,'drawCone',true);      % 设置变量名和默认参数
 addParameter(p,'drawLine',false);      % 设置变量名和默认参数
 addParameter(p,'drawCircle',false);      % 设置变量名和默认参数
-addParameter(p,'FaceAlpha',0.5);      % 设置变量名和默认参数
+addParameter(p,'FaceAlpha',0.8);      % 设置变量名和默认参数
 addParameter(p,'FaceColor','cyan');      % 设置变量名和默认参数
 parse(p,varargin{:});       % 对输入变量进行解析，如果检测到前面的变量被赋值，则更新变量取值
 
@@ -96,8 +96,8 @@ bottom1=[min(b1(1),b2(1)),min(b1(2),b2(2)),min(b1(3),b2(3))];
 top1=[max(t1(1),t2(1)),max(t1(2),t2(2)),max(t1(3),t2(3))];
 % draw3DBoundingBox(b1(1),b1(2),b1(3),t1(1),t1(2),t1(3),'color','green');
 % draw3DBoundingBox(b2(1),b2(2),b2(3),t2(1),t2(2),t2(3),'color','blue');
-draw3DBoundingBox(bottom1(1),bottom1(2),bottom1(3),top1(1),top1(2),top1(3),'color','blue');
-hold on;
+% draw3DBoundingBox(bottom1(1),bottom1(2),bottom1(3),top1(1),top1(2),top1(3),'color','blue');
+% hold on;
 % [bottom2,top2]=computeBoundBoxForFrustumCone(slabCone.smallCenter,slabCone.base,slabCone.bigCenter,slabCone.top);
-% draw3DBoundingBox(bottom2(1),bottom2(2),bottom2(3),top2(1),top2(2),top2(3),'color','blue');
+% draw3DBoundingBox(bottom2(1),bottom2(2),bottom2(3),top2(1),top2(2),top2(3),'color','red');
 end
