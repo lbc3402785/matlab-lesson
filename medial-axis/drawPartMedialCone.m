@@ -90,8 +90,8 @@ if p.Results.drawLine
     line([R1(1),R2(1)],[R1(2),R2(2)],[R1(3),R2(3)],'LineWidth',2,'Color','m');
 end
 %draw bounding box
-[b1,t1]=computeBoundBoxForPartDisc(slabCone.smallCenter,slabCone.base,axis,cv,radian);
-[b2,t2]=computeBoundBoxForPartDisc(slabCone.bigCenter,slabCone.top,axis,cv,radian);
+[b1,t1]=computeBoundBoxForDiscSector(slabCone.smallCenter,slabCone.base,axis,cv,radian);
+[b2,t2]=computeBoundBoxForDiscSector(slabCone.bigCenter,slabCone.top,axis,cv,radian);
 bottom1=[min(b1(1),b2(1)),min(b1(2),b2(2)),min(b1(3),b2(3))];
 top1=[max(t1(1),t2(1)),max(t1(2),t2(2)),max(t1(3),t2(3))];
 % draw3DBoundingBox(b1(1),b1(2),b1(3),t1(1),t1(2),t1(3),'color','green');

@@ -3,10 +3,21 @@ v=cross(normal,u);
 
 cosRadian=cos(radian);
 sinRadian=sqrt(1-cosRadian*cosRadian);
-%------------------------------------------------------
-costheta=u(1)/sqrt(u(1)*u(1)+v(1)*v(1));
+
 minX=center(1);
 maxX=center(1);
+if (abs(dot([1,0,0],normal)-1)>1e-5)
+    %x轴不垂直平面
+    %x轴在平面的投影
+    xp=[1,0,0]-dot([1,0,0],normal)*normal;
+    %归一化
+    xp=xp/norm(xp);
+else
+end
+
+%------------------------------------------------------
+costheta=u(1)/sqrt(u(1)*u(1)+v(1)*v(1));
+
 x1=center(1)+radius*cosRadian*u(1)+radius*sinRadian*v(1);
 x2=center(1)+radius*cosRadian*u(1)-radius*sinRadian*v(1);
 if (costheta>0&&costheta>cosRadian)%case1 case2
