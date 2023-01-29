@@ -135,8 +135,7 @@ function [inter1,inter2,num]=computeIntersectionOfTwoDiscSector(normal,u1,radian
             
         end
         if (~t0.isIntersecting&&~t1.isIntersecting&&~t2.isIntersecting&&~t3.isIntersecting)
-            %error('compute error');
-            return;
+            error('compute error');
         end
         %合并区域 order must be t0 t1 t2 t3
         if (t0.isIntersecting&&t2.isIntersecting&&t0.a1>=t2.a0)
@@ -159,9 +158,7 @@ function [inter1,inter2,num]=computeIntersectionOfTwoDiscSector(normal,u1,radian
         %到这里合并到最多只剩两个
         if(t0.isIntersecting)
             inter1=t0;
-            if(t1.isIntersecting)
-                inter2=t1;
-            elseif(t2.isIntersecting)
+            if(t2.isIntersecting)
                 inter2=t2;
             elseif (t3.isIntersecting)
                 inter2=t3;
