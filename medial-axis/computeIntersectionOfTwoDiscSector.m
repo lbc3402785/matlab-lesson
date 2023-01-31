@@ -9,12 +9,12 @@ function [inter1,inter2,num]=computeIntersectionOfTwoDiscSector(normal,u1,radian
        radian1=radian2;
        radian2=tmpR;
     end
-    %以u1为起始旋转轴，第一个区间为[0,2*radian1]
+    %以u1为起始旋转轴，第一个区间为[-radian1,radian1]
     theta=acos(costheta);
     num=0;
     inter1.isIntersecting = false;
     inter2.isIntersecting = false;
-    %第二个区间为[theta-radian2+radian1,theta+radian2+radian1]
+    %第二个区间为[theta-radian2,theta+radian2]
     if(radian1<pi*0.5&&radian2<0.5*pi)
         s0.a0=-radian1;
         s0.a1=radian1;
@@ -27,6 +27,7 @@ function [inter1,inter2,num]=computeIntersectionOfTwoDiscSector(normal,u1,radian
             th=-phi;
             qs=[cos(th/2),sin((th/2))*normal(1),sin((th/2))*normal(2),sin((th/2))*normal(3)];
             v=quatrotate(qs,u1);
+            inter1.isIntersecting=true;
             inter1.u=v;
             inter1.radian=(intersection.a1-intersection.a0)*0.5;
         end
@@ -52,16 +53,30 @@ function [inter1,inter2,num]=computeIntersectionOfTwoDiscSector(normal,u1,radian
             v=quatrotate(qs,u1);
             inter1.u=v;
             inter1.radian=(inter1.a1-inter1.a0)*0.5;
+            if (inter2.isIntersecting)
+                num=num+1;
+                phi=(inter2.a0+inter2.a1)*0.5;
+                th=-phi;
+                qs=[cos(th/2),sin((th/2))*normal(1),sin((th/2))*normal(2),sin((th/2))*normal(3)];
+                v=quatrotate(qs,u1);
+                inter2.u=v;
+                inter2.radian=(inter2.a1-inter2.a0)*0.5;
+            end
+        else
+            if (inter2.isIntersecting)
+                num=num+1;
+                phi=(inter2.a0+inter2.a1)*0.5;
+                th=-phi;
+                qs=[cos(th/2),sin((th/2))*normal(1),sin((th/2))*normal(2),sin((th/2))*normal(3)];
+                v=quatrotate(qs,u1);
+                inter2.u=v;
+                inter2.radian=(inter2.a1-inter2.a0)*0.5;
+                inter1=inter2;
+                inter1.isIntersecting=true;
+                inter2.isIntersecting=false;
+            end
         end
-        if (inter2.isIntersecting)
-            num=num+1;
-            phi=(inter2.a0+inter2.a1)*0.5;
-            th=-phi;
-            qs=[cos(th/2),sin((th/2))*normal(1),sin((th/2))*normal(2),sin((th/2))*normal(3)];
-            v=quatrotate(qs,u1);
-            inter2.u=v;
-            inter2.radian=(inter2.a1-inter2.a0)*0.5;
-        end
+        
     elseif (radian1<pi*0.5&&radian2>=0.5*pi)
         s0.a0=-radian1;
         s0.a1=radian1;
@@ -71,9 +86,16 @@ function [inter1,inter2,num]=computeIntersectionOfTwoDiscSector(normal,u1,radian
         s11.a1=theta+radian2;
         inter1=computeIntersectionOfTwoSemiDiscSector(s0,s10);
         inter2=computeIntersectionOfTwoSemiDiscSector(s0,s11);
-        if(inter1.isIntersecting&&inter2.isIntersecting&&inter1.a1>=inter2.a0)
-            inter1.a1=inter2.a1;
-            inter2.isIntersecting=false;
+        if(inter1.isIntersecting&&inter2.isIntersecting)
+            if (inter1.a0 > inter2.a0)%可能需要交换顺序
+                tmp=inter1;
+                inter1=inter2;
+                inter2=tmp;
+            end
+            if inter1.a1>=inter2.a0
+                inter1.a1=inter2.a1;
+                inter2.isIntersecting=false;
+            end
         end
         if (inter1.isIntersecting)
             num=num+1;
@@ -83,17 +105,29 @@ function [inter1,inter2,num]=computeIntersectionOfTwoDiscSector(normal,u1,radian
             v=quatrotate(qs,u1);
             inter1.u=v;
             inter1.radian=(inter1.a1-inter1.a0)*0.5;
-        end
-        
-        if (inter2.isIntersecting)
-            num=num+1;
-            phi=(inter2.a0+inter2.a1)*0.5;
-            th=-phi;
-            qs=[cos(th/2),sin((th/2))*normal(1),sin((th/2))*normal(2),sin((th/2))*normal(3)];
-            v=quatrotate(qs,u1);
-            inter2.u=v;
-            inter2.radian=(inter2.a1-inter2.a0)*0.5;
-        end
+            if (inter2.isIntersecting)
+                num=num+1;
+                phi=(inter2.a0+inter2.a1)*0.5;
+                th=-phi;
+                qs=[cos(th/2),sin((th/2))*normal(1),sin((th/2))*normal(2),sin((th/2))*normal(3)];
+                v=quatrotate(qs,u1);
+                inter2.u=v;
+                inter2.radian=(inter2.a1-inter2.a0)*0.5;
+            end
+        else
+            if (inter2.isIntersecting)
+                num=num+1;
+                phi=(inter2.a0+inter2.a1)*0.5;
+                th=-phi;
+                qs=[cos(th/2),sin((th/2))*normal(1),sin((th/2))*normal(2),sin((th/2))*normal(3)];
+                v=quatrotate(qs,u1);
+                inter2.u=v;
+                inter2.radian=(inter2.a1-inter2.a0)*0.5;
+                inter1=inter2;
+                inter1.isIntersecting=true;
+                inter2.isIntersecting=false;
+            end
+        end        
     else
         s00.a0=-radian1;
         s00.a1=0;
@@ -194,16 +228,28 @@ function [inter1,inter2,num]=computeIntersectionOfTwoDiscSector(normal,u1,radian
             v=quatrotate(qs,u1);
             inter1.u=v;
             inter1.radian=(inter1.a1-inter1.a0)*0.5;
-        end
-        
-        if (inter2.isIntersecting)
-            num=num+1;
-            phi=(inter2.a0+inter2.a1)*0.5;
-            th=-phi;
-            qs=[cos(th/2),sin((th/2))*normal(1),sin((th/2))*normal(2),sin((th/2))*normal(3)];
-            v=quatrotate(qs,u1);
-            inter2.u=v;
-            inter2.radian=(inter2.a1-inter2.a0)*0.5;
+            if (inter2.isIntersecting)
+                num=num+1;
+                phi=(inter2.a0+inter2.a1)*0.5;
+                th=-phi;
+                qs=[cos(th/2),sin((th/2))*normal(1),sin((th/2))*normal(2),sin((th/2))*normal(3)];
+                v=quatrotate(qs,u1);
+                inter2.u=v;
+                inter2.radian=(inter2.a1-inter2.a0)*0.5;
+            end
+        else
+            if (inter2.isIntersecting)
+                num=num+1;
+                phi=(inter2.a0+inter2.a1)*0.5;
+                th=-phi;
+                qs=[cos(th/2),sin((th/2))*normal(1),sin((th/2))*normal(2),sin((th/2))*normal(3)];
+                v=quatrotate(qs,u1);
+                inter2.u=v;
+                inter2.radian=(inter2.a1-inter2.a0)*0.5;
+                inter1=inter2;
+                inter1.isIntersecting=true;
+                inter2.isIntersecting=false;
+            end
         end
     end
     

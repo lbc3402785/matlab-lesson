@@ -1,4 +1,9 @@
-function drawSphericalCap(center,radius,axis,radian)
+function drawSphericalCap(center,radius,axis,radian,varargin)
+p = inputParser;            % 函数的输入解析器
+addParameter(p,'FaceColor','cyan');      % 设置变量名和默认参数
+addParameter(p,'FaceAlpha',0.5);      % 设置变量名和默认参数
+parse(p,varargin{:});       % 对输入变量进行解析，如果检测到前面的变量被赋值，则更新变量取值
+
 u=[0,0,0];
 v=[0,0,0];
 if abs(axis(1))>abs(axis(2))
@@ -29,7 +34,7 @@ for k=1:N
 end
 %draw sphere part
 h=surf(X,Y,Z);
-set(h,'FaceColor','cyan','FaceAlpha',1,'FaceLighting','gouraud','EdgeColor','none');
+set(h,'FaceColor',p.Results.FaceColor,'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor','none');
 hold on;
 %draw plane
 rB=radius*sin(radian);
@@ -50,6 +55,6 @@ for k=0:M
     Z=cat(2,Z,z);
 end
 h=surf(X,Y,Z);
-set(h,'FaceColor','magenta','FaceAlpha',1,'FaceLighting','gouraud','EdgeColor','none');
+set(h,'FaceColor',p.Results.FaceColor,'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor','none');
 hold on;
 end

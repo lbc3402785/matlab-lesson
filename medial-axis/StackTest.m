@@ -1,0 +1,16 @@
+import java.lang.Object;
+import java.util.Stack;
+import java.util.HashMap;
+stack = java.util.Stack();
+q1=HashMap();
+q1.put('u',[1,2,3]);
+q1.put('radian',0.5*pi);
+stack.push(q1);
+% q=stack.pop();
+% disp(q.get('u'));
+% disp(q.get('radian'));
+tmp=stack.clone();
+stack.pop();
+q=tmp.pop();
+disp(q.get('u'));
+disp(q.get('radian'));

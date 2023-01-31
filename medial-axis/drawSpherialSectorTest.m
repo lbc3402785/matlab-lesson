@@ -9,7 +9,7 @@ n = [1, 0, 0];
 n=n/norm(n);
 u=[0.8575, 0,-0.5145];
 u=u/norm(u);
-radian=pi/3;
+radian=1*pi/3;
 drawSphericalSector(center,radius,u,radian);
 [bottom,top]=computeBoundingBoxForSphericalSector(u,radian);
 bottom=bottom*radius+center;
