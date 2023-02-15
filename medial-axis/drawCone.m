@@ -1,4 +1,4 @@
-function drawCone(X1,Y1,Z1,X2,Y2,Z2,n,varargin)
+function drawCone(X1,Y1,Z1,X2,Y2,Z2,varargin)
 if(~exist('n','var'))
     n = 64;  % 如果未出现该变量，则对其进行赋值
 end

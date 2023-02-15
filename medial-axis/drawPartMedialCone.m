@@ -78,7 +78,7 @@ if p.Results.drawCone
     [X1,Y1,Z1]=createCircleSector(slabCone.smallCenter,cv,axis,radian,slabCone.base,m);
     [X2,Y2,Z2]=createCircleSector(slabCone.bigCenter,cv,axis,radian,slabCone.top,m);
  
-    drawCone(X1,Y1,Z1,X2,Y2,Z2,n,'mode',p.Results.mode,'FaceAlpha',p.Results.FaceAlpha,'FaceColor',p.Results.FaceColor);
+    drawCone(X1,Y1,Z1,X2,Y2,Z2,'mode',p.Results.mode,'FaceAlpha',p.Results.FaceAlpha,'FaceColor',p.Results.FaceColor);
     hold on;
     %draw the hidden part
 %     [X1,Y1,Z1]=createCircleSector(slabCone.smallCenter,-cv,axis,pi-radian,slabCone.base,m);

@@ -1,4 +1,4 @@
-function [st0,st1,success]=TriangleFromThreeSpheres(c0,r0,c1,r1,c2,r2)
+function [st0,st1,n0,n1,success]=TriangleFromThreeSpheres(c0,r0,c1,r1,c2,r2)
 %函数的功能：
 %函数的描述：
 %函数的使用：y=func(input1,input2)
@@ -30,6 +30,8 @@ function [st0,st1,success]=TriangleFromThreeSpheres(c0,r0,c1,r1,c2,r2)
     normal = cross(c0c1,c0c2);
     normal=normal/norm(normal);
     if ( (dr0r1 < 1e-8) && (dr0r2 < 1e-8) && (dr1r2 < 1e-8) )
+        n0=normal;
+        n1=-normal;
         st0.v0 = c0 + normal * r0;
         st0.v1 = c1 + normal * r1;
         st0.v2 = c2 + normal * r2;
@@ -108,6 +110,7 @@ function [st0,st1,success]=TriangleFromThreeSpheres(c0,r0,c1,r1,c2,r2)
                 st0.normal = cross(st0.e1, st0.e2);
                 st0.normal=st0.normal/norm(st0.normal);
             end
+            n0=newnorm0;
             %-----------------------------------------
             st1.v0 = c0 + r0*newnorm1;
             st1.v1 = c1 + r1*newnorm1;
@@ -125,6 +128,7 @@ function [st0,st1,success]=TriangleFromThreeSpheres(c0,r0,c1,r1,c2,r2)
                 st1.normal = cross(st1.e1, st1.e2);
                 st1.normal=st1.normal/norm(st1.normal);
             end
+            n1=newnorm1;
         end
     end
 end

@@ -1,0 +1,104 @@
+function [bottom,top,success,intersect,output]=computeBoundingBoxForAnySphericalCap(center,radius,us,radians)
+    output=java.util.ArrayList();
+    ps=java.util.ArrayList();
+    intersect=false;
+    success=false;
+    cosRadians=java.util.ArrayList();
+    for i=0:radians.size()-1
+        cosRadians.add(cos(radians.get(i)));
+    end
+    for i=0:us.size()-1
+        for j=i+1:us.size()-1
+            u1=us.get(i);
+            radian1=radians.get(i);
+            u2=us.get(j);
+            radian2=radians.get(j);
+            normal=cross(u1,u2);
+            normal=normal/norm(normal);
+            [inter1,inter2,num]=computeIntersectionOfTwoDiscSector(normal,transpose(u1),radian1,transpose(u2),radian2);
+            if (num==0)
+                bottom=[0,0,0];
+                top=[0,0,0];
+                success=false;
+                intersect=false;
+                return;
+            end
+            %计算两个圆的交点
+            %先求两个面的圆心
+            c1=cos(radian1)*u1;
+            c2=cos(radian2)*u2;
+            d1=dot(c1,u1);
+            d2=dot(c2,u2);
+            %u1\cdot c1=d1
+            %u2\cdot c2=d2;
+            p=PlanePlaneIntersection(normal,u1,d1,u2,d2);
+            [t1,t2,intersect]=LineSphereIntersection([0,0,0],1,p,normal);
+            if(intersect)
+                p1=p+t1*transpose(normal);
+                p2=p+t2*transpose(normal);
+                ps.add(p1);
+                ps.add(p2);
+            end
+        end
+    end
+    bottom=[0,0,0];
+    top=[0,0,0];
+    tmp=java.util.ArrayList();
+    %====bottom====
+    [project,check,key]=solveAxisForAnySphericalCap([-1,0,0],us,cosRadians,ps);
+    
+    if(~check)
+        success=false;
+        return;
+    end
+    key
+    tmp.add(key*radius+center);
+    bottom(1)=-project;
+    [project,check,key]=solveAxisForAnySphericalCap([0,-1,0],us,cosRadians,ps);
+    if(~check)
+        success=false;
+        return;
+    end
+    key
+    tmp.add(key*radius+center);
+    bottom(2)=-project;
+    [project,check,key]=solveAxisForAnySphericalCap([0,0,-1],us,cosRadians,ps);
+    if(~check)
+        success=false;
+        return;
+    end
+    key
+    tmp.add(key*radius+center);
+    bottom(3)=-project;
+    %====top====
+    [project,check,key]=solveAxisForAnySphericalCap([1,0,0],us,cosRadians,ps);
+    if(~check)
+        success=false;
+        return;
+    end
+    key
+    tmp.add(key*radius+center);
+    top(1)=project;
+    [project,check,key]=solveAxisForAnySphericalCap([0,1,0],us,cosRadians,ps);
+    if(~check)
+        success=false;
+        return;
+    end
+    key
+    tmp.add(key*radius+center);
+    top(2)=project;
+    [project,check,key]=solveAxisForAnySphericalCap([0,0,1],us,cosRadians,ps);
+    if(~check)
+        success=false;
+        return;
+    end
+    key
+    tmp.add(key*radius+center);
+    top(3)=project;
+    output.addAll(tmp);
+    
+    bottom=bottom*radius+center;
+    top=top*radius+center;
+    success=true;
+    intersect=(ps.size()>0);
+end

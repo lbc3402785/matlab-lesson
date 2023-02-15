@@ -10,14 +10,21 @@ function [slabCone]=computeSlabCone(c0,r0,c1,r1)
     end
     dr0r1 = abs(r0-r1);
     if (dr0r1 < 1e-8)
+        slabCone.apex=c0;
         slabCone.smallCenter = c0;
         slabCone.axis = c1-c0;
         slabCone.axis=slabCone.axis/norm(slabCone.axis);
         slabCone.base = r0;
         slabCone.top = r1;
         slabCone.bigCenter=c1;
+        slabCone.cosThetaSqr=1;
+        slabCone.height = norm(slabCone.axis);
+        slabCone.hmin =0;
+        slabCone.hmax =slabCone.height;
+        slabCone.type=1;
         return;
     end
+    slabCone.type=2;
     slabCone.apex=(r1 * c0 - r0 * c1) / (r1 - r0);
     slabCone.axis=c1-c0;
     if (r0>r1)
@@ -34,13 +41,17 @@ function [slabCone]=computeSlabCone(c0,r0,c1,r1)
         slabCone.smallCenter = slabCone.apex + apexc0 * cangle * cangle;
         slabCone.base = r0 * cangle;
         slabCone.top = r1 * cangle;
-        height = (vc1len - vc0len) * cangle * cangle;
-        slabCone.bigCenter=slabCone.smallCenter+height*slabCone.axis;
+        slabCone.height = (vc1len - vc0len) * cangle * cangle;
+        slabCone.bigCenter=slabCone.smallCenter+slabCone.height*slabCone.axis;
+        slabCone.hmin=dot(slabCone.smallCenter-slabCone.apex,slabCone.axis);
+        slabCone.hmax=slabCone.hmin+slabCone.height;
     else
         slabCone.smallCenter = slabCone.apex + apexc1 * cangle * cangle;
         slabCone.base = r1 * cangle;
         slabCone.top = r0 * cangle;
-        height = (vc0len - vc1len) * cangle * cangle;
-        slabCone.bigCenter=slabCone.smallCenter+height*slabCone.axis;
+        slabCone.height = (vc0len - vc1len) * cangle * cangle;
+        slabCone.bigCenter=slabCone.smallCenter+slabCone.height*slabCone.axis;
+        slabCone.hmin=dot(slabCone.smallCenter-slabCone.apex,slabCone.axis);
+        slabCone.hmax=slabCone.hmin+slabCone.height;
     end
 end

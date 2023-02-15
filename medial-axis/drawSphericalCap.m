@@ -2,6 +2,7 @@ function drawSphericalCap(center,radius,axis,radian,varargin)
 p = inputParser;            % 函数的输入解析器
 addParameter(p,'FaceColor','cyan');      % 设置变量名和默认参数
 addParameter(p,'FaceAlpha',0.5);      % 设置变量名和默认参数
+addParameter(p,'drawPlane',false);      % 设置变量名和默认参数
 parse(p,varargin{:});       % 对输入变量进行解析，如果检测到前面的变量被赋值，则更新变量取值
 
 u=[0,0,0];
@@ -15,6 +16,7 @@ else
    u=u/norm(u);
    v=cross(axis,u);
 end
+v=v/norm(v);
 theta = linspace(0, 2*pi, 100);
 N=50;
 phi=linspace(0, radian, N);
@@ -32,29 +34,36 @@ for k=1:N
     Y=cat(2,Y,y);
     Z=cat(2,Z,z);
 end
+
+
 %draw sphere part
 h=surf(X,Y,Z);
 set(h,'FaceColor',p.Results.FaceColor,'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor','none');
 hold on;
-%draw plane
 rB=radius*sin(radian);
 hB=radius*cos(radian);
 centerB=center+hB*axis;
-X=[];
-Y=[];
-Z=[];
-M=100;
-for k=0:M
-    rd=rB*k/M;
-    x=transpose(centerB(1)+rd*u(1)*cos(theta)+rd*v(1)*sin(theta));
-    y=transpose(centerB(2)+rd*u(2)*cos(theta)+rd*v(2)*sin(theta));
-    z=transpose(centerB(3)+rd*u(3)*cos(theta)+rd*v(3)*sin(theta));
-    %plot3(x,y,z,'r-', 'LineWidth', 1.3);
-    X=cat(2,X,x);
-    Y=cat(2,Y,y);
-    Z=cat(2,Z,z);
-end
-h=surf(X,Y,Z);
-set(h,'FaceColor',p.Results.FaceColor,'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor','none');
+%draw Circle
+drawCircle(centerB,v,axis,rB,180,'Color',p.Results.FaceColor,'LineWidth',4);
 hold on;
+%draw plane
+if p.Results.drawPlane
+    X=[];
+    Y=[];
+    Z=[];
+    M=100;
+    for k=0:M
+        rd=rB*k/M;
+        x=transpose(centerB(1)+rd*u(1)*cos(theta)+rd*v(1)*sin(theta));
+        y=transpose(centerB(2)+rd*u(2)*cos(theta)+rd*v(2)*sin(theta));
+        z=transpose(centerB(3)+rd*u(3)*cos(theta)+rd*v(3)*sin(theta));
+        %plot3(x,y,z,'r-', 'LineWidth', 1.3);
+        X=cat(2,X,x);
+        Y=cat(2,Y,y);
+        Z=cat(2,Z,z);
+    end
+    h=surf(X,Y,Z);
+    set(h,'FaceColor',p.Results.FaceColor,'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor','none');
+    hold on;
+end
 end

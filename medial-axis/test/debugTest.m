@@ -1,13 +1,22 @@
-c1=[1,3,0];
-c2=[2,1,0];
-c3=[4,0,0];
-c4=[-2,-1,0];
-r1=1;
-r2=2;
-r3=0.5;
-r4=3;
+
+addpath(genpath('.\geometry'));
+c1=[363.038391,173.360779,172.786880];%15
+c2=[361.692108,171.739700,170.366302];%16
+c3=[363.127563,170.929092,170.215347];%117
+
+c4=[362.185730,171.603958,173.731659];%1696
+
+
+c5=[359.791779,167.331497,165.977859];%827
 
 center=(c1+c2+c3)/3;
+
+r1=1.63569260;%15
+r2=1.18762290;%16
+r3=1.26848865;%117
+
+r4=0.958481908;%1696
+r5=6.06894541;%827
 
 
 c12=c2-c1;
@@ -16,9 +25,61 @@ fn=cross(c12,c13);
 fn=fn/norm(fn);
 
 
-[V1_UP,V1_DOWN,O1,A1,B1,V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,false,false,false);
+%[V1_UP,V1_DOWN,O1,A1,B1,V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,false,false,false);
+[slab,success]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,true,true,true,'FaceColor','red','drawTriangle',true);
+if isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V1_UP)&& ...
+    isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V2_UP)&& ...
+    isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V3_UP)
+else
+    P=transpose([slab.V1_UP;slab.V2_UP;slab.V3_UP]);
+    X=P(1,:);
+    Y=P(2,:);
+    Z=P(3,:);
+    T=[1,2,3];
+    trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor','red','FaceAlpha',1);
+    hold on;
 
-[V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3,V4_UP,V4_DOWN,O4,A4,B4]=drawMedialSlab(c2,c3,c4,r2,r3,r4,180,64,false,false,false);
+end
+if isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V1_DOWN)&& ...
+    isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V2_DOWN)&& ...
+    isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V3_DOWN)
+else
+    P=transpose([slab.V1_DOWN;slab.V2_DOWN;slab.V3_DOWN]);
+    X=P(1,:);
+    Y=P(2,:);
+    Z=P(3,:);
+    T=[1,2,3];
+    trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor','red','FaceAlpha',1);
+    hold on;
+
+end
+% P=transpose([V1_UP;V2_UP;V3_UP]);
+% line([V1_UP(1),V1_DOWN(1)],[V1_UP(2),V1_DOWN(2)],[V1_UP(3),V1_DOWN(3)],'LineStyle','-','LineWidth',1,'Color','black');
+% line([V2_UP(1),V2_DOWN(1)],[V2_UP(2),V2_DOWN(2)],[V2_UP(3),V2_DOWN(3)],'LineStyle','-','LineWidth',1,'Color','black');
+% line([V3_UP(1),V3_DOWN(1)],[V3_UP(2),V3_DOWN(2)],[V3_UP(3),V3_DOWN(3)],'LineStyle','-','LineWidth',1,'Color','black');
+
+% c14=c4-c1;
+% fn=cross(c14,c12);
+% fn=fn/norm(fn);
+[slab,success]=drawMedialSlab(c2,c3,c4,r2,r3,r4,180,64,true,true,true,'FaceColor','blue','drawTriangle',true);
+
+
+P=transpose([slab.st0.v0;slab.st0.v1;slab.st0.v2]);
+X=P(1,:);
+Y=P(2,:);
+Z=P(3,:);
+T=[1,2,3];
+trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor','blue','FaceAlpha',1);
+hold on;
+P=transpose([slab.st1.v0;slab.st1.v1;slab.st1.v2]);
+X=P(1,:);
+Y=P(2,:);
+Z=P(3,:);
+T=[1,2,3];
+trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor','blue','FaceAlpha',1);
+hold on;
+
+drawMedialSlab(c2,c3,c5,r2,r3,r5,180,64,true,true,true);
 % fn_skim=A1-O1;
 % fn_skim=fn_skim/norm(fn_skim);
 % text(c1(1)+fn(1)*0.2+fn_skim(1)*0.4,c1(2)+fn(2)*0.2+fn_skim(2)*0.4,c1(3)+fn(3)*0.2+fn_skim(3)*0.4,'c1','HorizontalAlignment','left','FontSize',12,'Color','red');  
