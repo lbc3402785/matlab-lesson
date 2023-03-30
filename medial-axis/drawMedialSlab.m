@@ -30,16 +30,16 @@ c23=c23/norm(c23);
 c21=-c12;
 c31=-c13;
 c32=-c23;
-
-if p.Results.drawTriangle
-    P=transpose([c1;c2;c3]);
-    X=P(1,:);
-    Y=P(2,:);
-    Z=P(3,:);
-    T=[1,2,3];
-    trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
-    hold on;
-end
+% 
+% if p.Results.drawTriangle
+%     P=transpose([c1;c2;c3]);
+%     X=P(1,:);
+%     Y=P(2,:);
+%     Z=P(3,:);
+%     T=[1,2,3];
+%     trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
+%     hold on;
+% end
 %be sure the first sphere is the biggest sphere
 pos=[c1;c2;c3];
 radius=[r1;r2;r3];
@@ -94,12 +94,12 @@ if ~success
     return;
 end
 %--------------------------------------------------
-% P=transpose([c1;c2;c3]);
-% X=P(1,:);
-% Y=P(2,:);
-% Z=P(3,:);
-% T=[1,2,3];
-% trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
+P=transpose([c1;c2;c3]);
+X=P(1,:);
+Y=P(2,:);
+Z=P(3,:);
+T=[1,2,3];
+trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
 slab.V1_UP=c1+r1*n0;
 slab.V1_DOWN=c1+r1*n1;
 slab.V2_UP=c2+r2*n0;

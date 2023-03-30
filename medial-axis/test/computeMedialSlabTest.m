@@ -35,7 +35,7 @@ hold on;
 % hold on;
 % [bottom,top]=computeBoundBoxForPartCone(slab.slabCone23,slab.cv23,slab.radian23);
 % draw3DBoundingBox(bottom(1),bottom(2),bottom(3),top(1),top(2),top(3),'color','red');
-[slab1,success]=drawMedialSlab(c1,c2,c4,r1,r2,r4,180,64,false,true,true,'drawTriangle',false,'drawSphere',true,'FaceColor','green');
+[slab1,success]=drawMedialSlab(c1,c2,c4,r1,r2,r4,180,64,false,true,true,'drawTriangle',true,'drawSphere',true,'FaceColor','green');
 
 q1=java.util.HashMap();
 q1.put('u',slab.cv12);
@@ -47,13 +47,15 @@ stricts=java.util.Stack();
 stricts.push(q1);
 stricts.push(q2);
 result=mergeStricts(stricts,c12);
+m=180;
+n=64;
 for i=0:result.size()-1
     p=result.get(i);
     u=transpose(p.get('u'));
     radian=p.get('radian');
     drawPartMedialCone(c1,c2,r1,r2,slab.V1_UP,slab.V1_DOWN,slab.V2_UP,slab.V2_DOWN,u,c12,radian,m,n,'drawSphere',false,'drawLine',false,'FaceColor','magenta');
     [bottom,top]=computeBoundBoxForPartCone(slab.slabCone12,u,radian);
-    draw3DBoundingBox(bottom(1),bottom(2),bottom(3),top(1),top(2),top(3),'color',[1  ,0.5   ,0]);
+    %draw3DBoundingBox(bottom(1),bottom(2),bottom(3),top(1),top(2),top(3),'color',[1  ,0.5   ,0]);
 end
 hold on;
 axis equal;

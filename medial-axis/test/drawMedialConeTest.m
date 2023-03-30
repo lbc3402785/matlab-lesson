@@ -11,7 +11,7 @@ c4=[2,-3,1];
 % c3=[360.994934,174.264099,175.432449];
 
 % r1=5;
-r1=1;
+r1=0;
 r2=3;
 r3=2;
 r4=2;
@@ -44,9 +44,9 @@ hold on;
 % draw3DBoundingBox(bottom12(1),bottom12(2),bottom12(3),top12(1),top12(2),top12(3),'color','blue');
 % c31=c1-c3;
 % c31=c31/norm(c31);
-
-[L1,R1,L3,R3,slabCone13,cv]=drawMedialCone(c1,c3,r1,r3,180,64,'FaceAlpha',0.5);
-[L1,R1,L4,R4,slabCone14,cv]=drawMedialCone(c1,c4,r1,r4,180,64,'FaceAlpha',0.5);
+% 
+% [L1,R1,L3,R3,slabCone13,cv]=drawMedialCone(c1,c3,r1,r3,180,64,'FaceAlpha',0.5);
+% [L1,R1,L4,R4,slabCone14,cv]=drawMedialCone(c1,c4,r1,r4,180,64,'FaceAlpha',0.5);
 % radian13=0.5*pi;
 % if(abs(r1-r2)>1e-5)
 %     radian13=0.5*pi-acos(sqrt(slabCone13.cosThetaSqr));

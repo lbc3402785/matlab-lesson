@@ -35,8 +35,14 @@ function [slabCone]=computeSlabCone(c0,r0,c1,r1)
     apexc1 = c1 - slabCone.apex;
     vc0len =norm(apexc0);
     vc1len =norm(apexc1);
-    cangle = sqrt(1.-r0*r0/vc0len/vc0len);
-    slabCone.cosThetaSqr=1.-r0*r0/vc0len/vc0len;
+    if (r0<r1)
+        cangle = sqrt(1.-r1*r1/vc1len/vc1len);
+        slabCone.cosThetaSqr=1.-r1*r1/vc1len/vc1len;
+    else
+        cangle = sqrt(1.-r0*r0/vc0len/vc0len);
+        slabCone.cosThetaSqr=1.-r0*r0/vc0len/vc0len;
+    end
+    
     if (r0<r1)
         slabCone.smallCenter = slabCone.apex + apexc0 * cangle * cangle;
         slabCone.base = r0 * cangle;

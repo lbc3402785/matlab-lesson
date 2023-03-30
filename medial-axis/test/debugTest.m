@@ -1,4 +1,4 @@
-
+addpath(genpath('..\'));
 addpath(genpath('.\geometry'));
 c1=[363.038391,173.360779,172.786880];%15
 c2=[361.692108,171.739700,170.366302];%16
@@ -26,11 +26,11 @@ fn=fn/norm(fn);
 
 
 %[V1_UP,V1_DOWN,O1,A1,B1,V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,false,false,false);
-[slab,success]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,true,true,true,'FaceColor','red','drawTriangle',true);
+[slab,success]=computeMedialSlab(c1,c2,c3,r1,r2,r3);
 if isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V1_UP)&& ...
     isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V2_UP)&& ...
     isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V3_UP)
-else
+
     P=transpose([slab.V1_UP;slab.V2_UP;slab.V3_UP]);
     X=P(1,:);
     Y=P(2,:);
@@ -43,7 +43,7 @@ end
 if isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V1_DOWN)&& ...
     isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V2_DOWN)&& ...
     isSlabContainVertice(c2,c3,c4,r2,r3,r4,slab.V3_DOWN)
-else
+
     P=transpose([slab.V1_DOWN;slab.V2_DOWN;slab.V3_DOWN]);
     X=P(1,:);
     Y=P(2,:);
@@ -61,7 +61,7 @@ end
 % c14=c4-c1;
 % fn=cross(c14,c12);
 % fn=fn/norm(fn);
-[slab,success]=drawMedialSlab(c2,c3,c4,r2,r3,r4,180,64,true,true,true,'FaceColor','blue','drawTriangle',true);
+[slab,success]=drawMedialSlab(c2,c3,c4,r2,r3,r4,180,64,true,true,true,'FaceColor','blue','drawTriangle',true,'FaceAlpha',0.8);
 
 
 P=transpose([slab.st0.v0;slab.st0.v1;slab.st0.v2]);
@@ -69,17 +69,17 @@ X=P(1,:);
 Y=P(2,:);
 Z=P(3,:);
 T=[1,2,3];
-trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor','blue','FaceAlpha',1);
+trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor','blue','FaceAlpha',0.5);
 hold on;
 P=transpose([slab.st1.v0;slab.st1.v1;slab.st1.v2]);
 X=P(1,:);
 Y=P(2,:);
 Z=P(3,:);
 T=[1,2,3];
-trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor','blue','FaceAlpha',1);
+trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor','blue','FaceAlpha',0.5);
 hold on;
 
-drawMedialSlab(c2,c3,c5,r2,r3,r5,180,64,true,true,true);
+% drawMedialSlab(c2,c3,c5,r2,r3,r5,180,64,true,true,true);
 % fn_skim=A1-O1;
 % fn_skim=fn_skim/norm(fn_skim);
 % text(c1(1)+fn(1)*0.2+fn_skim(1)*0.4,c1(2)+fn(2)*0.2+fn_skim(2)*0.4,c1(3)+fn(3)*0.2+fn_skim(3)*0.4,'c1','HorizontalAlignment','left','FontSize',12,'Color','red');  

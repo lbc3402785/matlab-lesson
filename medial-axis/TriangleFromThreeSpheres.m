@@ -65,6 +65,7 @@ function [st0,st1,n0,n1,success]=TriangleFromThreeSpheres(c0,r0,c1,r1,c2,r2)
             st1.normal = cross(st1.e1, st1.e2);
             st1.normal=st1.normal/norm(st1.normal);
         end
+        success=true;
     else
         if (dr0r1 < 1e-8)
             apex0 = (r2 * c0 - r0 * c2) / (r2 - r0);%apex0 for c0 and c2

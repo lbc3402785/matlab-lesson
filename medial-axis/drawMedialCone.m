@@ -1,4 +1,5 @@
 function [L1,R1,L2,R2,slabCone,cv]=drawMedialCone(c1,c2,r1,r2,m,n,varargin)
+
 if(~exist('m','var'))
     m = 180;  % 如果未出现该变量，则对其进行赋值
 end
@@ -14,6 +15,7 @@ addParameter(p,'FaceAlpha',1);      % 设置变量名和默认参数
 parse(p,varargin{:});       % 对输入变量进行解析，如果检测到前面的变量被赋值，则更新变量取值
 
 [slabCone]=computeSlabCone(c1,r1,c2,r2);
+
 cv=[1,0,0];
 if (abs(slabCone.axis(1))>abs(slabCone.axis(2)))
     cv=[-slabCone.axis(3),0,slabCone.axis(1)];
@@ -21,6 +23,14 @@ else
     cv=[0,slabCone.axis(3),-slabCone.axis(2)];
 end
 cv=cv/norm(cv);
+if(r1==0&&r2==0)
+    L1=c1;
+    R1=c1;
+    L2=c2;
+    R2=c2;
+    return;
+end
+
 if(r1<r2)
     L1 = slabCone.smallCenter+slabCone.base*cv; 
     L2 = slabCone.bigCenter+slabCone.top*cv; % 左线切点
@@ -32,44 +42,42 @@ else
     R2 = slabCone.smallCenter-slabCone.base*cv; 
     R1 = slabCone.bigCenter-slabCone.top*cv; % 右线切点
 end
-% c21=c1-c2;
-% c21=c21/norm(c21);
-% u1=c21;
-% c1L1=L1-c1;
-% c1L1=c1L1/norm(c1L1);
-% radian1=acos(dot(c1L1,u1));
-% radian1=0.5*pi-acos(sqrt(slabCone.cosThetaSqr));
-% if r1>r2
-%     radian1=pi-radian1;
-% end
+c21=c1-c2;
+c21=c21/norm(c21);
+u1=c21;
+c1L1=L1-c1;
+c1L1=c1L1/norm(c1L1);
+radian1=acos(dot(c1L1,u1));
+radian1=0.5*pi-acos(sqrt(slabCone.cosThetaSqr));
+if r1>r2
+    radian1=pi-radian1;
+end
 
-[x1,y1,z1] = sphere(128);
-x1=x1*r1+c1(1);
-y1=y1*r1+c1(2);
-z1=z1*r1+c1(3);
-h1 = surf(x1, y1, z1);
-set(h1,'FaceColor',[0.88, 0.84, 0.76],'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor','none');%phong
-% drawSphericalCap(c1,r1,u1,radian1,'FaceColor',[0.88, 0.84, 0.76]);
-% set(h1,'FaceColor',[0.807 0.6390 0.6156],'FaceAlpha',0.5,'FaceLighting','gouraud','EdgeColor','none')
+% [x1,y1,z1] = sphere(128);
+% x1=x1*r1+c1(1);
+% y1=y1*r1+c1(2);
+% z1=z1*r1+c1(3);
+% h1 = surf(x1, y1, z1);
+% set(h1,'FaceColor',[0.88, 0.84, 0.76],'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor','none');%phong
+drawSphericalCap(c1,r1,u1,radian1,'FaceColor',[0.88, 0.84, 0.76]);
 
 hold on;
-% u2=-c21;
-% c2L2=L2-c2;
-% c2L2=c2L2/norm(c2L2);
-% radian2=acos(dot(c2L2,u2));
-% radian2=0.5*pi-acos(sqrt(slabCone.cosThetaSqr));
-% if r1<r2
-%     radian2=pi-radian2;
-% end
-[x2,y2,z2] = sphere(128);
-x2=x2*r2+c2(1);
-y2=y2*r2+c2(2);
-z2=z2*r2+c2(3);
-h2 = surf(x2, y2, z2);
-set(h2,'FaceColor',[0.88, 0.84, 0.76],'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor','none')
-% drawSphericalCap(c2,r2,u2,radian2,'FaceColor',[0.88, 0.84, 0.76]);
-% set(h2,'FaceColor',[0.807 0.6390 0.6156],'FaceAlpha',0.5,'FaceLighting','gouraud','EdgeColor','none')
-% set(h2, 'FaceColor', [1 0 0])
+u2=-c21;
+c2L2=L2-c2;
+c2L2=c2L2/norm(c2L2);
+radian2=acos(dot(c2L2,u2));
+radian2=0.5*pi-acos(sqrt(slabCone.cosThetaSqr));
+if r1<r2
+    radian2=pi-radian2;
+end
+% [x2,y2,z2] = sphere(128);
+% x2=x2*r2+c2(1);
+% y2=y2*r2+c2(2);
+% z2=z2*r2+c2(3);
+% h2 = surf(x2, y2, z2);
+% set(h2,'FaceColor',[0.88, 0.84, 0.76],'FaceAlpha',p.Results.FaceAlpha,'FaceLighting','gouraud','EdgeColor','none')
+drawSphericalCap(c2,r2,u2,radian2,'FaceColor',[0.88, 0.84, 0.76]);
+
 
 daspect([1 1 1]);
 
@@ -97,7 +105,7 @@ end
 if p.Results.drawCone
     [X1,Y1,Z1]=createCircle(slabCone.smallCenter,cv,slabCone.axis,slabCone.base,m);
     [X2,Y2,Z2]=createCircle(slabCone.bigCenter,cv,slabCone.axis,slabCone.top,m);
-    drawCone(X1,Y1,Z1,X2,Y2,Z2,n,'mode',p.Results.mode,'FaceAlpha',p.Results.FaceAlpha);
+    drawCone(X1,Y1,Z1,X2,Y2,Z2,'mode',p.Results.mode,'FaceAlpha',p.Results.FaceAlpha);
 end
 if p.Results.drawLine
     line([L1(1),L2(1)],[L1(2),L2(2)],[L1(3),L2(3)],'LineWidth',2,'Color','m');
