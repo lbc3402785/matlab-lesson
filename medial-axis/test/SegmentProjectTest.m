@@ -1,0 +1,15 @@
+addpath(genpath('..'));
+addpath(genpath('..\geometry'));
+c0=[0,0,0];
+c1=[10,0,0];
+line([c0(1),c1(1)],[c0(2),c1(2)],[c0(3),c1(3)],'LineStyle','-','LineWidth',2,'Color','black');
+v=[3,3,4];
+seg=Segment(c0,c1);
+[fp,dist]=seg.project(v);
+line([fp(1),v(1)],[fp(2),v(2)],[fp(3),v(3)],'LineStyle','-','LineWidth',2,'Color','red');
+grid off;
+hold off;
+axis off;
+axis equal;
+light('Color',[0.8, 0.8, 0.8],'Position',[10 10 -10],'Style','infinite');
+camlight;

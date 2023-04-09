@@ -93,6 +93,8 @@ if ~success
     disp('TriangleFromThreeSpheres error!');
     return;
 end
+disp(dot(slab.st0.normal,n0));
+disp(dot(slab.st1.normal,n1));
 %--------------------------------------------------
 P=transpose([c1;c2;c3]);
 X=P(1,:);
@@ -100,6 +102,7 @@ Y=P(2,:);
 Z=P(3,:);
 T=[1,2,3];
 trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
+hold on;
 slab.V1_UP=c1+r1*n0;
 slab.V1_DOWN=c1+r1*n1;
 slab.V2_UP=c2+r2*n0;

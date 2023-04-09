@@ -1,4 +1,5 @@
 function [slabCone]=computeSlabCone(c0,r0,c1,r1)
+    slabCone=Cone();
     c02c1 = c1-c0;
     if (norm(c02c1) - abs(r1 - r0) < 1e-8)
         disp('one sphere is included in another sphere!');
@@ -18,6 +19,7 @@ function [slabCone]=computeSlabCone(c0,r0,c1,r1)
         slabCone.top = r1;
         slabCone.bigCenter=c1;
         slabCone.cosThetaSqr=1;
+        slabCone.sinThetaSqr=0;
         slabCone.height = norm(slabCone.axis);
         slabCone.hmin =0;
         slabCone.hmax =slabCone.height;
@@ -38,9 +40,11 @@ function [slabCone]=computeSlabCone(c0,r0,c1,r1)
     if (r0<r1)
         cangle = sqrt(1.-r1*r1/vc1len/vc1len);
         slabCone.cosThetaSqr=1.-r1*r1/vc1len/vc1len;
+        slabCone.sinThetaSqr=r1*r1/vc1len/vc1len;
     else
         cangle = sqrt(1.-r0*r0/vc0len/vc0len);
         slabCone.cosThetaSqr=1.-r0*r0/vc0len/vc0len;
+        slabCone.sinThetaSqr=r0*r0/vc0len/vc0len;
     end
     
     if (r0<r1)

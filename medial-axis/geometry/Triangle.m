@@ -30,9 +30,63 @@ classdef Triangle
             top=[max(top(1),tri.v3(1)),max(top(2),tri.v3(2)),max(top(3),tri.v3(3))];
             bd=Bounds3(bottom,top);
         end
-        function [inter]=getIntersectionOfRay(tri,ray)
+        function [fp,signeddist]=project(tri,p)
+            interior=dot(p-v0,tri.normal)>0;
+            fp=p-dot((p-v0),tri.normal)*tri.normal;
+            m=0;
+            t=0;
+            biggest = 0.0;  % Largest component of normal vector. %
+            for i=1:3 
+                t =abs( tri.normal(i) );
+                if ( t > biggest ) 
+                    biggest = t;
+                    m = i;
+                end
+            end
+            code=InTri3D(tri,m,fp);
+            if(code ~='0')
+                signeddist = norm(fp-p);
+            else
+                se12=Segment(tri.v1,tri.v2);
+                se13=Segment(tri.v1,tri.v3);
+                se23=Segment(tri.v2,tri.v3);
+                
+                [fp12,dist12]=se12.project(p);
+                [fp13,dist13]=se13.project(p,fp02,dist02);
+                [fp23,dist23]=se23.project(p,fp12,dist12);
+                if ( (dist12 <= dist13) && (dist13 <= dist23) )
+                    signeddist = dist12;
+                    fp = fp12;
+                elseif( (dist13 <= dist12) && (dist13 <= dist23) )
+                    signeddist = dist13;
+                    fp = fp13;
+                else
+                    signeddist = dist23;
+                    fp = fp23;
+                end
+            end
+            if(interior)
+                signeddist=signeddist*-1;
+            end
+        end
+        function draw(tri)
+            line([tri.v1(1),tri.v2(1)],[tri.v1(2),tri.v2(2)],[tri.v1(3),tri.v2(3)],'LineStyle','-','LineWidth',1,'Color','blue');
+            line([tri.v1(1),tri.v3(1)],[tri.v1(2),tri.v3(2)],[tri.v1(3),tri.v3(3)],'LineStyle','-','LineWidth',1,'Color','blue');
+            line([tri.v2(1),tri.v3(1)],[tri.v2(2),tri.v3(2)],[tri.v2(3),tri.v2(3)],'LineStyle','-','LineWidth',1,'Color','blue');
+        end
+        function [bary]=getBarycentrics(tri,p)
+            area1=dot(cross(tri.v2-p,tri.v3-p),tri.normal);
+            area2=dot(cross(tri.v3-p,tri.v1-p),tri.normal);
+            area3=dot(cross(tri.v1-p,tri.v2-p),tri.normal);
+            sum=area1+area2+area3;
+            bary=[area1/sum,area2/sum,area3/sum];
+        end
+        function [inter]=getIntersectionOfRay(tri,ray,varargin)
+            p = inputParser;            % 函数的输入解析器
+            addParameter(p,'ignoreDirection',false);      % 设置变量名和默认参数
+            parse(p,varargin{:});       % 对输入变量进行解析，如果检测到前面的变量被赋值，则更新变量取值
             inter.happened = false;
-            if (dot(ray.direction, tri.normal) > 0)
+            if (~p.Results.ignoreDirection&&dot(ray.direction, tri.normal) > 0)
                 return;
             end
             pvec = cross(ray.direction, tri.e2);%S1=DxE2

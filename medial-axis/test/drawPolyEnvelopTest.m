@@ -1,0 +1,17 @@
+c2=[0,4,-1];
+c3=[2,0,1];
+c4=[-2,0,3];
+r1=1;
+r2=1.5;
+r3=5;
+[slab,success]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,true,true,true,'FaceColor','blue','drawSphere',false);
+line([slab.V1_UP(1),slab.V1_DOWN(1)],[slab.V1_UP(2),slab.V1_DOWN(2)],[slab.V1_UP(3),slab.V1_DOWN(3)],'LineStyle','-','LineWidth',5,'Color','BLUE');
+line([slab.V2_UP(1),slab.V2_DOWN(1)],[slab.V2_UP(2),slab.V2_DOWN(2)],[slab.V2_UP(3),slab.V2_DOWN(3)],'LineStyle','-','LineWidth',5,'Color','BLUE');
+line([slab.V3_UP(1),slab.V3_DOWN(1)],[slab.V3_UP(2),slab.V3_DOWN(2)],[slab.V3_UP(3),slab.V3_DOWN(3)],'LineStyle','-','LineWidth',5,'Color','BLUE');
+hold on;
+axis equal;
+grid off;
+hold off;
+axis off;
+light('Color',[0.8, 0.8, 0.8],'Position',[10 10 -10],'Style','infinite');
+camlight;

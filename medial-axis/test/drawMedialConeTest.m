@@ -18,6 +18,9 @@ r4=2;
 figure;
 [L1,R1,L2,R2,slabCone12,cv]=drawMedialCone(c1,c2,r1,r2,180,64,'FaceAlpha',0.5);
 hold on;
+disp(slabCone12.contains(c1))
+disp(slabCone12.contains(c2))
+disp(slabCone12.contains(0.5*c1+0.5*c2))
 % c21=c1-c2;
 % c21=c21/norm(c21);
 % 
