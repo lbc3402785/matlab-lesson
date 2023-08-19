@@ -20,6 +20,16 @@ classdef Triangle
         function c=center(tri)
             c=(tri.v1+tri.v2+tri.v3)/3;
         end
+        function [c,r]=inscribedCircle(tri)
+            a=norm(tri.v2-tri.v3);
+            b=norm(tri.v3-tri.v1);
+            c=norm(tri.v1-tri.v2);
+            Perimeter=a+b+c;
+            p=Perimeter/2;
+            S=sqrt(p*(p-a)*(p-b)*(p-c));
+            r=S/p;
+            c=(tri.v1*a+tri.v2*b+tri.v3*c)/Perimeter;
+        end
         function [bd]=getBounds(tri)
             bottom=tri.v1;
             top=tri.v1;
@@ -34,7 +44,6 @@ classdef Triangle
             interior=dot(p-v0,tri.normal)>0;
             fp=p-dot((p-v0),tri.normal)*tri.normal;
             m=0;
-            t=0;
             biggest = 0.0;  % Largest component of normal vector. %
             for i=1:3 
                 t =abs( tri.normal(i) );
@@ -72,7 +81,13 @@ classdef Triangle
         function draw(tri)
             line([tri.v1(1),tri.v2(1)],[tri.v1(2),tri.v2(2)],[tri.v1(3),tri.v2(3)],'LineStyle','-','LineWidth',1,'Color','blue');
             line([tri.v1(1),tri.v3(1)],[tri.v1(2),tri.v3(2)],[tri.v1(3),tri.v3(3)],'LineStyle','-','LineWidth',1,'Color','blue');
-            line([tri.v2(1),tri.v3(1)],[tri.v2(2),tri.v3(2)],[tri.v2(3),tri.v2(3)],'LineStyle','-','LineWidth',1,'Color','blue');
+            line([tri.v2(1),tri.v3(1)],[tri.v2(2),tri.v3(2)],[tri.v2(3),tri.v3(3)],'LineStyle','-','LineWidth',1,'Color','blue');
+        end
+        function drawInscribedCircle(tri)
+            [c,r]=inscribedCircle(tri);
+            u=tri.v1-tri.v2;
+            u=u/norm(u);
+            drawCircle(c,u,tri.normal,r);
         end
         function [bary]=getBarycentrics(tri,p)
             area1=dot(cross(tri.v2-p,tri.v3-p),tri.normal);

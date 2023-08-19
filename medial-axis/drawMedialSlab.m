@@ -16,6 +16,7 @@ if(~exist('b3','var'))
 end
 p = inputParser;            % 函数的输入解析器
 addParameter(p,'drawTriangle',true);      % 设置变量名和默认参数
+addParameter(p,'TriangleColor',[54/255 195/255 201/255]);      % 设置变量名和默认参数
 addParameter(p,'drawSphere',true);      % 设置变量名和默认参数
 addParameter(p,'FaceColor','cyan');      % 设置变量名和默认参数
 addParameter(p,'FaceAlpha',1);      % 设置变量名和默认参数
@@ -96,13 +97,13 @@ end
 disp(dot(slab.st0.normal,n0));
 disp(dot(slab.st1.normal,n1));
 %--------------------------------------------------
-P=transpose([c1;c2;c3]);
-X=P(1,:);
-Y=P(2,:);
-Z=P(3,:);
-T=[1,2,3];
-trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
-hold on;
+% P=transpose([c1;c2;c3]);
+% X=P(1,:);
+% Y=P(2,:);
+% Z=P(3,:);
+% T=[1,2,3];
+% trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
+% hold on;
 slab.V1_UP=c1+r1*n0;
 slab.V1_DOWN=c1+r1*n1;
 slab.V2_UP=c2+r2*n0;
@@ -151,7 +152,7 @@ if p.Results.drawTriangle
     T=[1,2,3];
     % trisurf(T,X,Y,Z,'FaceColor',[0,0.69,0.941],'FaceAlpha',1);
     % trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',[0.3010 0.7450 0.9330],'FaceAlpha',1);
-    trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',p.Results.FaceColor,'FaceAlpha',p.Results.FaceAlpha);
+    trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',p.Results.TriangleColor,'FaceAlpha',p.Results.FaceAlpha);
     hold on;
     %--------------------------------------------------
     P=transpose([slab.V1_DOWN;slab.V2_DOWN;slab.V3_DOWN]);
@@ -161,7 +162,7 @@ if p.Results.drawTriangle
     T=[1,2,3];
     % trisurf(T,X,Y,Z,'FaceColor', [0,0.69,0.941],'FaceAlpha',1);
     % trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',[0.3010 0.7450 0.9330],'FaceAlpha',1);
-    trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',p.Results.FaceColor,'FaceAlpha',p.Results.FaceAlpha);
+    trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',p.Results.TriangleColor,'FaceAlpha',p.Results.FaceAlpha);
     hold on;
 end
 
@@ -173,13 +174,13 @@ end
 if(b1)
 %     drawMedialCone(c1,c2,r1,r2,m,n,'FaceAlpha',p.Results.FaceAlpha);
     
-    drawPartMedialCone(c1,c2,r1,r2,slab.V1_UP,slab.V1_DOWN,slab.V2_UP,slab.V2_DOWN,slab.cv12,c12,slab.radian12,m,n,'drawSphere',false,'drawLine',false,'FaceColor','cyan');
+    drawPartMedialCone(c1,c2,r1,r2,slab.V1_UP,slab.V1_DOWN,slab.V2_UP,slab.V2_DOWN,slab.cv12,c12,slab.radian12,m,n,'drawSphere',false,'drawLine',false,'FaceColor','cyan','FaceAlpha',p.Results.FaceAlpha);
     hold on;
 end
 if(b2)
 %     drawMedialCone(c1,c3,r1,r3,m,n,'FaceAlpha',p.Results.FaceAlpha);
     
-    drawPartMedialCone(c1,c3,r1,r3,slab.V1_UP,slab.V1_DOWN,slab.V3_UP,slab.V3_DOWN,slab.cv13,c13,slab.radian13,m,n,'drawSphere',false,'drawLine',false,'FaceColor','cyan');
+    drawPartMedialCone(c1,c3,r1,r3,slab.V1_UP,slab.V1_DOWN,slab.V3_UP,slab.V3_DOWN,slab.cv13,c13,slab.radian13,m,n,'drawSphere',false,'drawLine',false,'FaceColor','cyan','FaceAlpha',p.Results.FaceAlpha);
     hold on;
 end
 if(b3)
@@ -187,7 +188,7 @@ if(b3)
     
 %     drawDiscSector(slabCone23.smallCenter,slabCone23.base,c23,cv23,radian23,'FaceColor','red');
 %     drawDiscSector(slabCone23.bigCenter,slabCone23.top,c23,cv23,radian23,'FaceColor','red');
-    drawPartMedialCone(c2,c3,r2,r3,slab.V2_UP,slab.V2_DOWN,slab.V3_UP,slab.V3_DOWN,slab.cv23,c23,slab.radian23,m,n,'drawSphere',false,'drawLine',false,'FaceColor','cyan');
+    drawPartMedialCone(c2,c3,r2,r3,slab.V2_UP,slab.V2_DOWN,slab.V3_UP,slab.V3_DOWN,slab.cv23,c23,slab.radian23,m,n,'drawSphere',false,'drawLine',false,'FaceColor','cyan','FaceAlpha',p.Results.FaceAlpha);
     hold on;
 end
 end
