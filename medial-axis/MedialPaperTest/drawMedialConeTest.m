@@ -1,22 +1,24 @@
+addpath(genpath('..'));
+addpath(genpath('..\geometry'));
 % c1=[6,-6,2];
 % c2=[2,4,0];
 % c3=[-5,2,3];
-c1=[3,3,1];
+c1=[2,3,1];
 c2=[10,6,0];
 c3=[5,10,2];
-c4=[2,-3,1];
+c4=[4,-1,-1];
 % c1=[359.156097,171.203094,172.972748];
 % c2=[358.990845,171.054413,172.814499];
 % 
 % c3=[360.994934,174.264099,175.432449];
 
 % r1=5;
-r1=1.5;
+r1=1.2;
 r2=3;
 r3=1.5;
-r4=2;
+r4=2.5;
 figure;
-[L1,R1,L2,R2,slabCone12,cv]=drawMedialCone(c1,c2,r1,r2,180,64,'FaceAlpha',1);
+[L1,R1,L2,R2,slabCone12,cv]=drawMedialCone(c1,c4,r1,r4,180,64,'FaceAlpha',1);
 grid off;
 hold off;
 axis off;
