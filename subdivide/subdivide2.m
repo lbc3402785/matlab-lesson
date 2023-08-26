@@ -1,6 +1,6 @@
-A0=[1.5, -2];
-B0=[2, -1.5];
-C0=[1,-1.8];
+A0=[0, 0];
+B0=[0,1];
+C0=[-1,0];
 [O0,r0]=inscribedCircle(A0,B0,C0);
 figure(1);
 hold on;
@@ -15,8 +15,8 @@ c0=norm(A0-B0);
 delta=min([a0,b0,c0]);
 %delta=gcd(round(c0*100),gcd(round(b0*100),round(a0*100)))/10000.0;
 A=[0, 0];
-B=[9, 8];
-C=[-2,6];
+B=[0,1];
+C=[6,0];
 [O,r]=inscribedCircle(A,B,C);
 circle(O(1),O(2),r);
 line([A(1),B(1)],[A(2),B(2)],'color','red','LineStyle','-','LineWidth',1);
@@ -44,8 +44,18 @@ N1=round(norm(A-B)/delta);
 N2=round(norm(A-C)/delta);
 N3=round(norm(B-C)/delta);
 N=round(log2(min([N1,N2,N3])))-1;
-% multiple=r/r0;
+% disp(N1);
+% disp(N2);
+% disp(N3);
+% multiple=minlength/delta;
 % N=round(log2(multiple))-1;
+% N=round(log2(minlength/delta))-1;
+% N1=round(2^N*norm(A-B)/minlength);
+% N2=round(2^N*norm(A-C)/minlength);
+% N3=round(2^N*norm(B-C)/minlength);
+% disp(N1);
+% disp(N2);
+% disp(N3);
 
 figure(2);
 hold on;
@@ -56,7 +66,23 @@ plot(O(1),O(2),'o','color','red');
 text(A(1),A(2),'A','HorizontalAlignment','left','FontSize',12);
 text(B(1),B(2),'B','HorizontalAlignment','left','FontSize',12);
 text(C(1),C(2),'C','HorizontalAlignment','left','FontSize',12);
-for i=1:N
+points=[A;B;C];
+for j=1:N1-1
+        pij=A*(1-j/N1)+B*(j/N1);
+        points=[points;pij];
+        plot(pij(1),pij(2),'x');
+end
+for j=1:N2-1
+    pij=A*(1-j/N2)+C*(j/N2);
+    points=[points;pij];
+    plot(pij(1),pij(2),'x');
+end
+ for j=1:N3-1
+    pij=B*(1-j/N3)+C*(j/N3);
+    points=[points;pij];
+    plot(pij(1),pij(2),'x');
+end
+for i=1:N-1
     OAi=-AO*i/N;
     Ai=O+OAi;
     OBi=-BO*i/N;
@@ -69,7 +95,9 @@ for i=1:N
     line([Ai(1),Bi(1)],[Ai(2),Bi(2)],'color','cyan','LineStyle','-','LineWidth',1);
     line([Ai(1),Ci(1)],[Ai(2),Ci(2)],'color','cyan','LineStyle','-','LineWidth',1);
     line([Bi(1),Ci(1)],[Bi(2),Ci(2)],'color','cyan','LineStyle','-','LineWidth',1);
-    points=[points;Ai;Bi;Ci];
+    if i<N
+        points=[points;Ai;Bi;Ci];
+    end
     MI=2^(N-i);
     k1=fix(N1/MI);
     k2=fix(N2/MI);
@@ -99,7 +127,8 @@ hold on;
 title('Output Triangulation','fontsize',14)
 axis equal;
 triplot(t,points(:,1),points(:,2),'color','b')%plot della superficie trattata
-for i=1:N
+disp(t);
+for i=1:N-1
     OAi=-AO*i/N;
     Ai=O+OAi;
     OBi=-BO*i/N;
