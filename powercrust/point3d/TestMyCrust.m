@@ -9,7 +9,7 @@ close all
 
 %% Points cloud :
 clear all
-% load Cactus.mat
+load Cactus.mat
 % load Skull.mat 
 % load Standford_Bunny.mat
 % load Horse.mat
@@ -23,7 +23,7 @@ clear all
 % load cow.mat
 %load happy.mat
 %load fandisk.mat
-load airplane_0627.mat
+%load airplane_0627.mat
 %% plot of the current point cloud
 % figure(1);
 % hold on

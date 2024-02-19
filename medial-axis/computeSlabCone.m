@@ -1,5 +1,5 @@
 function [slabCone]=computeSlabCone(c0,r0,c1,r1)
-    slabCone=Cone();
+    slabCone=Cone(c0,r0,c1,r1);
     c02c1 = c1-c0;
     if (norm(c02c1) - abs(r1 - r0) < 1e-8)
         disp('one sphere is included in another sphere!');
@@ -12,12 +12,16 @@ function [slabCone]=computeSlabCone(c0,r0,c1,r1)
     dr0r1 = abs(r0-r1);
     if (dr0r1 < 1e-8)
         slabCone.apex=c0;
-        slabCone.smallCenter = c0;
+        slabCone.smallCircleCenter = c0;
+        slabCone.smallCenter=c0;
+        slabCone.smallRadius=r0;
         slabCone.axis = c1-c0;
         slabCone.axis=slabCone.axis/norm(slabCone.axis);
         slabCone.base = r0;
         slabCone.top = r1;
+        slabCone.bigCircleCenter=c1;
         slabCone.bigCenter=c1;
+        slabCone.bigRadius=r1;
         slabCone.cosThetaSqr=1;
         slabCone.sinThetaSqr=0;
         slabCone.height = norm(slabCone.axis);
@@ -48,20 +52,28 @@ function [slabCone]=computeSlabCone(c0,r0,c1,r1)
     end
     
     if (r0<r1)
-        slabCone.smallCenter = slabCone.apex + apexc0 * cangle * cangle;
+        slabCone.smallCircleCenter = slabCone.apex + apexc0 * cangle * cangle;
+        slabCone.smallCenter=c0;
+        slabCone.smallRadius=r0;
         slabCone.base = r0 * cangle;
         slabCone.top = r1 * cangle;
         slabCone.height = (vc1len - vc0len) * cangle * cangle;
-        slabCone.bigCenter=slabCone.smallCenter+slabCone.height*slabCone.axis;
-        slabCone.hmin=dot(slabCone.smallCenter-slabCone.apex,slabCone.axis);
+        slabCone.bigCircleCenter=slabCone.smallCircleCenter+slabCone.height*slabCone.axis;
+        slabCone.bigCenter=c1;
+        slabCone.bigRadius=r1;
+        slabCone.hmin=dot(slabCone.smallCircleCenter-slabCone.apex,slabCone.axis);
         slabCone.hmax=slabCone.hmin+slabCone.height;
     else
-        slabCone.smallCenter = slabCone.apex + apexc1 * cangle * cangle;
+        slabCone.smallCircleCenter = slabCone.apex + apexc1 * cangle * cangle;
+        slabCone.smallCenter=c1;
+        slabCone.smallRadius=r1;
         slabCone.base = r1 * cangle;
         slabCone.top = r0 * cangle;
         slabCone.height = (vc0len - vc1len) * cangle * cangle;
-        slabCone.bigCenter=slabCone.smallCenter+slabCone.height*slabCone.axis;
-        slabCone.hmin=dot(slabCone.smallCenter-slabCone.apex,slabCone.axis);
+        slabCone.bigCircleCenter=slabCone.smallCircleCenter+slabCone.height*slabCone.axis;
+        slabCone.bigCenter=c0;
+        slabCone.bigRadius=r0;
+        slabCone.hmin=dot(slabCone.smallCircleCenter-slabCone.apex,slabCone.axis);
         slabCone.hmax=slabCone.hmin+slabCone.height;
     end
 end

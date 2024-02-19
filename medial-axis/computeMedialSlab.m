@@ -1,4 +1,6 @@
 function [slab,success]=computeMedialSlab(c1,c2,c3,r1,r2,r3)
+    slab=Slab(c1,c2,c3,r1,r2,r3);
+    
     pos=[c1;c2;c3];
     radius=[r1;r2;r3];
     if radius(1)<radius(2)
