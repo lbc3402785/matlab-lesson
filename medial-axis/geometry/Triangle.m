@@ -40,9 +40,8 @@ classdef Triangle
             top=[max(top(1),tri.v3(1)),max(top(2),tri.v3(2)),max(top(3),tri.v3(3))];
             bd=Bounds3(bottom,top);
         end
-        function [fp,signeddist]=project(tri,p)
-            interior=dot(p-v0,tri.normal)>0;
-            fp=p-dot((p-v0),tri.normal)*tri.normal;
+        function [u,v,w,fp,signeddist]=project(tri,p)
+            fp=p-dot((p-tri.v1),tri.normal)*tri.normal;
             m=0;
             biggest = 0.0;  % Largest component of normal vector. %
             for i=1:3 
@@ -55,14 +54,16 @@ classdef Triangle
             code=InTri3D(tri,m,fp);
             if(code ~='0')
                 signeddist = norm(fp-p);
+                [u,v,w]=tri.getBarycentrics(p);
             else
                 se12=Segment(tri.v1,tri.v2);
                 se13=Segment(tri.v1,tri.v3);
                 se23=Segment(tri.v2,tri.v3);
                 
-                [fp12,dist12]=se12.project(p);
-                [fp13,dist13]=se13.project(p,fp02,dist02);
-                [fp23,dist23]=se23.project(p,fp12,dist12);
+                [t1,fp12,dist12]=se12.project(p);
+                [t2,fp13,dist13]=se13.project(p);
+                [t3,fp23,dist23]=se23.project(p);
+                [u,v,w]=tri.getBarycentrics(p);
                 if ( (dist12 <= dist13) && (dist13 <= dist23) )
                     signeddist = dist12;
                     fp = fp12;
@@ -74,14 +75,20 @@ classdef Triangle
                     fp = fp23;
                 end
             end
-            if(interior)
-                signeddist=signeddist*-1;
-            end
         end
         function draw(tri)
-            line([tri.v1(1),tri.v2(1)],[tri.v1(2),tri.v2(2)],[tri.v1(3),tri.v2(3)],'LineStyle','-','LineWidth',1,'Color','blue');
-            line([tri.v1(1),tri.v3(1)],[tri.v1(2),tri.v3(2)],[tri.v1(3),tri.v3(3)],'LineStyle','-','LineWidth',1,'Color','blue');
-            line([tri.v2(1),tri.v3(1)],[tri.v2(2),tri.v3(2)],[tri.v2(3),tri.v3(3)],'LineStyle','-','LineWidth',1,'Color','blue');
+%             line([tri.v1(1),tri.v2(1)],[tri.v1(2),tri.v2(2)],[tri.v1(3),tri.v2(3)],'LineStyle','-','LineWidth',1,'Color','blue');
+%             line([tri.v1(1),tri.v3(1)],[tri.v1(2),tri.v3(2)],[tri.v1(3),tri.v3(3)],'LineStyle','-','LineWidth',1,'Color','blue');
+%             line([tri.v2(1),tri.v3(1)],[tri.v2(2),tri.v3(2)],[tri.v2(3),tri.v3(3)],'LineStyle','-','LineWidth',1,'Color','blue');
+            P=transpose([tri.v1;tri.v2;tri.v3]);
+            X=P(1,:);
+            Y=P(2,:);
+            Z=P(3,:);
+            T=[1,2,3];
+            % trisurf(T,X,Y,Z,'FaceColor',[0,0.69,0.941],'FaceAlpha',1);
+            % trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',[0.3010 0.7450 0.9330],'FaceAlpha',1);
+            trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',[0.3010 0.7450 0.9330],'FaceAlpha',1);
+            hold on;
         end
         function drawInscribedCircle(tri)
             [c,r]=inscribedCircle(tri);
@@ -89,12 +96,14 @@ classdef Triangle
             u=u/norm(u);
             drawCircle(c,u,tri.normal,r);
         end
-        function [bary]=getBarycentrics(tri,p)
+        function [u,v,w]=getBarycentrics(tri,p)
             area1=dot(cross(tri.v2-p,tri.v3-p),tri.normal);
             area2=dot(cross(tri.v3-p,tri.v1-p),tri.normal);
             area3=dot(cross(tri.v1-p,tri.v2-p),tri.normal);
             sum=area1+area2+area3;
-            bary=[area1/sum,area2/sum,area3/sum];
+            u=area1/sum;
+            v=area2/sum;
+            w=area3/sum;
         end
         function [inter]=getIntersectionOfRay(tri,ray,varargin)
             p = inputParser;            % 函数的输入解析器

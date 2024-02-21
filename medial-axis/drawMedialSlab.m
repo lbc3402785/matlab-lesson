@@ -89,13 +89,13 @@ if p.Results.drawSphere
     hold on;
 end
 daspect([1 1 1]);
-[slab.st0,slab.st1,n0,n1,success]=TriangleFromThreeSpheres(pos(1,:),radius(1),pos(2,:),radius(2,:),pos(3,:),radius(3));
+[slab,success]=computeMedialSlab(c1,c2,c3,r1,r2,r3);
+%[slab.st0,slab.st1,n0,n1,success]=TriangleFromThreeSpheres(pos(1,:),radius(1),pos(2,:),radius(2,:),pos(3,:),radius(3));
 if ~success
-    disp('TriangleFromThreeSpheres error!');
+    disp('computeMedialSlab error!');
     return;
 end
-disp(dot(slab.st0.normal,n0));
-disp(dot(slab.st1.normal,n1));
+
 %--------------------------------------------------
 % P=transpose([c1;c2;c3]);
 % X=P(1,:);
@@ -104,17 +104,12 @@ disp(dot(slab.st1.normal,n1));
 % T=[1,2,3];
 % trisurf(T,X,Y,Z,'FaceColor','yellow','FaceAlpha',1);
 % hold on;
-slab.V1_UP=c1+r1*n0;
-slab.V1_DOWN=c1+r1*n1;
-slab.V2_UP=c2+r2*n0;
-slab.V2_DOWN=c2+r2*n1;
-slab.V3_UP=c3+r3*n0;
-slab.V3_DOWN=c3+r3*n1;
+
 slab.cv12=c31-dot(c31,c12)*c12;
 slab.cv12=slab.cv12/norm(slab.cv12);
-t0=n0-dot(n0,c12)*c12;
+t0=slab.n0-dot(slab.n0,c12)*c12;
 t0=t0/norm(t0);
-t1=n1-dot(n1,c12)*c12;
+t1=slab.n1-dot(slab.n1,c12)*c12;
 t1=t1/norm(t1);
 if(abs(dot(slab.cv12,t0)-dot(slab.cv12,t1))>1e-5)
     disp('normal compute accurate!');
@@ -123,9 +118,9 @@ slab.radian12=acos((dot(slab.cv12,t0)+dot(slab.cv12,t1))*0.5);
 
 slab.cv13=c21-dot(c21,c13)*c13;
 slab.cv13=slab.cv13/norm(slab.cv13);
-t0=n0-dot(n0,c13)*c13;
+t0=slab.n0-dot(slab.n0,c13)*c13;
 t0=t0/norm(t0);
-t1=n1-dot(n1,c13)*c13;
+t1=slab.n1-dot(slab.n1,c13)*c13;
 t1=t1/norm(t1);
 if(abs(dot(slab.cv13,t0)-dot(slab.cv13,t1))>1e-5)
     disp('normal compute accurate!');
@@ -134,9 +129,9 @@ slab.radian13=acos((dot(slab.cv13,t0)+dot(slab.cv13,t1))*0.5);
 
 slab.cv23=c12-dot(c12,c23)*c23;
 slab.cv23=slab.cv23/norm(slab.cv23);
-t0=n0-dot(n0,c23)*c23;
+t0=slab.n0-dot(slab.n0,c23)*c23;
 t0=t0/norm(t0);
-t1=n1-dot(n1,c23)*c23;
+t1=slab.n1-dot(slab.n1,c23)*c23;
 t1=t1/norm(t1);
 if(abs(dot(slab.cv23,t0)-dot(slab.cv23,t1))>1e-5)
     disp('normal compute accurate!');
@@ -167,9 +162,9 @@ if p.Results.drawTriangle
 end
 
 
-[slab.slabCone12]=computeSlabCone(c1,r1,c2,r2);
-[slab.slabCone13]=computeSlabCone(c1,r1,c3,r3);
-[slab.slabCone23]=computeSlabCone(c2,r2,c3,r3);
+% [slab.slabCone12]=computeSlabCone(c1,r1,c2,r2);
+% [slab.slabCone13]=computeSlabCone(c1,r1,c3,r3);
+% [slab.slabCone23]=computeSlabCone(c2,r2,c3,r3);
 %draw slab cone
 if(b1)
 %     drawMedialCone(c1,c2,r1,r2,m,n,'FaceAlpha',p.Results.FaceAlpha);

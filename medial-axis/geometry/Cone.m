@@ -1,67 +1,94 @@
 classdef Cone
     properties
         apex
-        smallCenter
+        smallCircleCenter
         axis
         base
         top
-        bigCenter
+        bigCircleCenter
         cosThetaSqr
         sinThetaSqr
         height
         hmin
         hmax
         type%1 cylinder 2 cone
+        smallCenter
+        bigCenter
+        smallRadius
+        bigRadius
     end
     methods
          % default constructor
-        function cone = Cone()
+        function cone = Cone(c0,r0,c1,r1)
             % initialization code here
-            type=0;
+            cone.type=0;
         end
-        function [fp,signeddist,seg]=project(cone,p)
-            apexp = p - cone.smallCenter;%小圆圆心指向顶点p
+        function [c,r,fp,signeddist,seg]=project(cone,p)
+            apexp = p - cone.smallCircleCenter;%小圆圆心指向顶点p
             apexpCaxis = cross(apexp,cone.axis);%顶点和圆锥轴构成的面的法向量
-            dp = dot(apexp,cone.axis);%顶点到smallCenter的轴向距离
-            interior = true;
-            if( (dp < 0) || (dp > cone.height) )%投影不在圆锥表面
-                interior = false;
-            end
+            dp = dot(apexp,cone.axis);%顶点到smallCircleCenter的轴向距离
             if(abs(norm(apexpCaxis)) < 1e-12)
                 bw=cone.axis;
                 [bu,bv]=Utils.GenerateComplementBasis(bw);
-                v0 = cone.smallCenter + bv * cone.base;%小圆和bv轴的交点
-                v1 = cone.smallCenter + cone.axis * cone.height + bv * cone.top;%大圆和bv轴的交点
-                seg=Segment(v0,v1);
-                seg.draw();
-                [fp,dist]=seg.project(p);%顶点在线段上的投影
-                if(~interior)
-                    signeddist=dist;
-                else
-                    signeddist=-dist;
-                end
+                v0 = cone.smallCircleCenter + bv * cone.base;%小圆和bv轴的交点
+                v1 = cone.bigCircleCenter + bv * cone.top;%大圆和bv轴的交点
+                
             else
-                if(interior)
-                    cone_dist_to_axis = dp/cone.height * cone.top + (cone.height-dp)/cone.height * cone.base;
-                    seg=Segment(cone.smallCenter,cone.smallCenter+cone.axis*cone.height);
-                    seg.draw();
-                    [tfp,dist_to_axis]=seg.project(p);
-                    if(dist_to_axis > cone_dist_to_axis)
-                        %顶点到轴的距离大于投影点到轴的距离，说明顶点在圆锥外部
-                        interior = false;
-                    end
-                end
                 apexp = apexp - dot(apexp,cone.axis)*cone.axis;
                 apexp=apexp/norm(apexp);
-                v0 = cone.smallCenter + apexp * cone.base;%小圆心沿apexp在圆锥表面的投影点
-                v1 = cone.smallCenter + cone.axis * cone.height + apexp * cone.top;%大圆心沿apexp在圆锥表面的投影点
-                seg=Segment(v0,v1);
-                seg.draw();
-                [fp,dist]=seg.project(p);%计算投影点
-                if(interior)
-                    signeddist = -dist;%在圆锥内部，有向距离设置为负值
+                v0 = cone.smallCircleCenter + apexp * cone.base;%小圆心沿apexp在圆锥表面的投影点
+                v1 = cone.bigCircleCenter + apexp * cone.top;%大圆心沿apexp在圆锥表面的投影点
+            end
+            seg=Segment(v0,v1);
+
+            l=norm(v1-v0);
+            pl=dot(p-v0,v1-v0)/l;
+            if( (pl < 0) || (pl > l) )
+                if(pl<0)
+                    %小球面的距离
+                    sph=Sphere(cone.smallCenter,cone.smallRadius);
+                    [fp,signeddist]=sph.project(p);
+                    c=cone.smallCenter;
+                    r=cone.smallRadius;
+                    
                 else
-                    signeddist = dist;%在圆锥内部，有向距离设置为正值
+                    %大球面的距离
+                    sph=Sphere(cone.bigCenter,cone.bigRadius);
+                    [fp,signeddist]=sph.project(p);
+                    c=cone.bigCenter;
+                    r=cone.bigRadius;   
+                end
+            else
+                %fp = (1.0-t)*v0+ t*v1;
+                [t,fp,dist]=seg.project(p);%顶点在线段上的投影
+                
+                if(cone.type==1)
+                    
+                    c=(1.0-t)*cone.smallCircleCenter+ t*cone.bigCircleCenter;
+                    r=(1.0-t)*cone.base+ t*cone.top;
+                    d=norm(p-c);
+                    if(d>r)
+                        signeddist=dist;
+                    else
+                        signeddist=-dist;
+                    end
+                else
+                    %不需要考虑球
+                    cone_dist_to_axis = dp/cone.height * cone.top + (cone.height-dp)/cone.height * cone.base;
+                    seg=Segment(cone.smallCircleCenter,cone.smallCircleCenter+cone.axis*cone.height);
+                    seg.draw();
+                    [~,~,dist_to_axis]=seg.project(p);
+                    if(dist_to_axis>cone_dist_to_axis)
+                        %在圆锥外面
+                        signeddist=dist;
+                    else
+                        %在圆锥内部
+                        signeddist=-dist;
+                    end
+                    r=norm(fp-cone.apex)*sqrt(cone.sinThetaSqr/cone.cosThetaSqr);
+                    w0=(r-cone.smallRadius)/(cone.bigRadius-cone.smallRadius);
+                    w1=1-w0;
+                    c=w0*cone.bigCenter+w1*cone.smallCenter;
                 end
             end
         end
