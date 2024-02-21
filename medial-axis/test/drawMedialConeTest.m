@@ -1,4 +1,5 @@
-% c1=[6,-6,2];
+addpath(genpath('..\'));
+addpath(genpath('..\geometry'));
 % c2=[2,4,0];
 % c3=[-5,2,3];
 c1=[3,3,1];

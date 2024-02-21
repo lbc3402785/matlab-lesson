@@ -1,6 +1,7 @@
 A0=[1.5, -2];
 B0=[2, -1.5];
 C0=[1,-1.8];
+% <<<<<<< HEAD
 [O0,r0]=inscribedCircle(A0,B0,C0);
 figure(1);
 hold on;
@@ -9,6 +10,14 @@ line([A0(1),B0(1)],[A0(2),B0(2)],'color','red','LineStyle','-','LineWidth',1);
 line([A0(1),C0(1)],[A0(2),C0(2)],'color','red','LineStyle','-','LineWidth',1);
 line([B0(1),C0(1)],[B0(2),C0(2)],'color','red','LineStyle','-','LineWidth',1);
 hold on;
+% =======
+% figure(1);
+% hold on;
+% axis equal;
+% line([A0(1),B0(1)],[A0(2),B0(2)],'color','cyan','LineStyle','-','LineWidth',1);
+% line([A0(1),C0(1)],[A0(2),C0(2)],'color','cyan','LineStyle','-','LineWidth',1);
+% line([B0(1),C0(1)],[B0(2),C0(2)],'color','cyan','LineStyle','-','LineWidth',1);
+% >>>>>>> c21af5105fde9a312e04cd3743a45d9034d9b665
 a0=norm(B0-C0);
 b0=norm(A0-C0);
 c0=norm(A0-B0);
@@ -49,9 +58,17 @@ N=round(log2(min([N1,N2,N3])))-1;
 
 figure(2);
 hold on;
+title('Output Points','fontsize',14)
 axis equal;
 plot(O(1),O(2),'o','color','red');
+% <<<<<<< HEAD
 
+% =======
+text(O(1),O(2),'O','HorizontalAlignment','left','FontSize',12);
+r1=(norm(A-B)/maxlength);
+r2=(norm(A-C)/maxlength);
+r3=(norm(B-C)/maxlength);
+% >>>>>>> c21af5105fde9a312e04cd3743a45d9034d9b665
 
 text(A(1),A(2),'A','HorizontalAlignment','left','FontSize',12);
 text(B(1),B(2),'B','HorizontalAlignment','left','FontSize',12);
@@ -93,6 +110,10 @@ end
 plot(A(1),A(2),'o');
 plot(B(1),B(2),'o');
 plot(C(1),C(2),'o');
+line([A0(1),B0(1)],[A0(2),B0(2)],'color','red','LineStyle','-','LineWidth',2);
+line([A0(1),C0(1)],[A0(2),C0(2)],'color','red','LineStyle','-','LineWidth',2);
+line([B0(1),C0(1)],[B0(2),C0(2)],'color','red','LineStyle','-','LineWidth',2);
+axis off;
 t=delaunay(points(:,1),points(:,2));
 figure(3);
 hold on;
@@ -110,7 +131,16 @@ for i=1:N
     line([Ai(1),Ci(1)],[Ai(2),Ci(2)],'color','cyan','LineStyle','-','LineWidth',2);
     line([Bi(1),Ci(1)],[Bi(2),Ci(2)],'color','cyan','LineStyle','-','LineWidth',2);
 end
+plot(O(1),O(2),'o','color','red');
+text(O(1),O(2),'O','HorizontalAlignment','left','FontSize',12);
+plot(A(1),A(2),'o');
+plot(B(1),B(2),'o');
+plot(C(1),C(2),'o');
+text(A(1),A(2),'A','HorizontalAlignment','left','FontSize',12);
+text(B(1),B(2),'B','HorizontalAlignment','left','FontSize',12);
+text(C(1),C(2),'C','HorizontalAlignment','left','FontSize',12);
 line([A0(1),B0(1)],[A0(2),B0(2)],'color','red','LineStyle','-','LineWidth',2);
 line([A0(1),C0(1)],[A0(2),C0(2)],'color','red','LineStyle','-','LineWidth',2);
 line([B0(1),C0(1)],[B0(2),C0(2)],'color','red','LineStyle','-','LineWidth',2);
+axis off;
 %view(-37.5,30);
