@@ -27,7 +27,7 @@ classdef Cone
             apexp = p - cone.smallCircleCenter;%小圆圆心指向顶点p
             apexpCaxis = cross(apexp,cone.axis);%顶点和圆锥轴构成的面的法向量
             dp = dot(apexp,cone.axis);%顶点到smallCircleCenter的轴向距离
-            if(abs(norm(apexpCaxis)) < 1e-12)
+            if(abs(norm(apexpCaxis)) ==0)
                 bw=cone.axis;
                 [bu,bv]=Utils.GenerateComplementBasis(bw);
                 v0 = cone.smallCircleCenter + bv * cone.base;%小圆和bv轴的交点
@@ -61,7 +61,7 @@ classdef Cone
             else
                 %fp = (1.0-t)*v0+ t*v1;
                 [t,fp,dist]=seg.project(p);%顶点在线段上的投影
-                
+                seg.draw();
                 if(cone.type==1)
                     
                     c=(1.0-t)*cone.smallCircleCenter+ t*cone.bigCircleCenter;
@@ -74,11 +74,8 @@ classdef Cone
                     end
                 else
                     %不需要考虑球
-                    cone_dist_to_axis = dp/cone.height * cone.top + (cone.height-dp)/cone.height * cone.base;
-                    seg=Segment(cone.smallCircleCenter,cone.smallCircleCenter+cone.axis*cone.height);
-                    seg.draw();
-                    [~,~,dist_to_axis]=seg.project(p);
-                    if(dist_to_axis>cone_dist_to_axis)
+                    c=dot((p-fp),(v0-cone.smallCenter));
+                    if(c>0)
                         %在圆锥外面
                         signeddist=dist;
                     else

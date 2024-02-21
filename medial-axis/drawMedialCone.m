@@ -1,4 +1,4 @@
-function [L1,R1,L2,R2,slabCone,cv]=drawMedialCone(c1,c2,r1,r2,m,n,varargin)
+function [L1,R1,L2,R2,slabCone,cv]=drawMedialCone(c1,r1,c2,r2,m,n,varargin)
 
 if(~exist('m','var'))
     m = 180;  % 如果未出现该变量，则对其进行赋值
@@ -32,15 +32,15 @@ if(r1==0&&r2==0)
 end
 
 if(r1<r2)
-    L1 = slabCone.smallCenter+slabCone.base*cv; 
-    L2 = slabCone.bigCenter+slabCone.top*cv; % 左线切点
-    R1 = slabCone.smallCenter-slabCone.base*cv; 
-    R2 = slabCone.bigCenter-slabCone.top*cv; % 右线切点
+    L1 = slabCone.smallCircleCenter+slabCone.base*cv; 
+    L2 = slabCone.smallCircleCenter+slabCone.top*cv; % 左线切点
+    R1 = slabCone.bigCircleCenter-slabCone.base*cv; 
+    R2 = slabCone.bigCircleCenter-slabCone.top*cv; % 右线切点
 else
-    L2 = slabCone.smallCenter+slabCone.base*cv; 
-    L1 = slabCone.bigCenter+slabCone.top*cv; % 左线切点
-    R2 = slabCone.smallCenter-slabCone.base*cv; 
-    R1 = slabCone.bigCenter-slabCone.top*cv; % 右线切点
+    L2 = slabCone.smallCircleCenter+slabCone.base*cv; 
+    L1 = slabCone.bigCircleCenter+slabCone.top*cv; % 左线切点
+    R2 = slabCone.smallCircleCenter-slabCone.base*cv; 
+    R1 = slabCone.bigCircleCenter-slabCone.top*cv; % 右线切点
 end
 c21=c1-c2;
 c21=c21/norm(c21);
@@ -99,12 +99,12 @@ v1=v1/norm(v1);
 v2=(L2-R2)*0.5;
 v2=v2/norm(v2);
 if p.Results.drawCircle
-    [X1,Y1,Z1]=drawCircle(slabCone.smallCenter,cv,slabCone.axis,slabCone.base,180,'Color','cyan');
-    [X2,Y2,Z2]=drawCircle(slabCone.bigCenter,cv,slabCone.axis,slabCone.top,180,'Color','cyan');
+    [X1,Y1,Z1]=drawCircle(slabCone.smallCircleCenter,cv,slabCone.axis,slabCone.base,180,'Color','cyan');
+    [X2,Y2,Z2]=drawCircle(slabCone.bigCircleCenter,cv,slabCone.axis,slabCone.top,180,'Color','cyan');
 end
 if p.Results.drawCone
-    [X1,Y1,Z1]=createCircle(slabCone.smallCenter,cv,slabCone.axis,slabCone.base,m);
-    [X2,Y2,Z2]=createCircle(slabCone.bigCenter,cv,slabCone.axis,slabCone.top,m);
+    [X1,Y1,Z1]=createCircle(slabCone.smallCircleCenter,cv,slabCone.axis,slabCone.base,m);
+    [X2,Y2,Z2]=createCircle(slabCone.bigCircleCenter,cv,slabCone.axis,slabCone.top,m);
     drawCone(X1,Y1,Z1,X2,Y2,Z2,'mode',p.Results.mode,'FaceAlpha',p.Results.FaceAlpha);
 end
 if p.Results.drawLine
