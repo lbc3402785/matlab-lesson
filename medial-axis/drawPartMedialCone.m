@@ -1,4 +1,4 @@
-function [smallCenter,base,bigCenter,top1]=drawPartMedialCone(c1,c2,r1,r2,L1,R1,L2,R2,cv,axis,radian,m,n,varargin)
+function [smallCircleCenter,base,bigCircleCenter,top1]=drawPartMedialCone(c1,c2,r1,r2,L1,R1,L2,R2,cv,axis,radian,m,n,varargin)
 %函数的功能：
 %函数的描述：
 %函数的使用：y=func(input1,input2)
@@ -70,19 +70,19 @@ end
 [slabCone]=computeSlabCone(c1,r1,c2,r2);
 
 if p.Results.drawCircle
-    [X1,Y1,Z1]=drawCircleSector(slabCone.smallCenter,axis,cv,slabCone.base,180,'Color','cyan');
-    [X2,Y2,Z2]=drawCircleSector(slabCone.bigCenter,axis,cv,slabCone.top,180,'Color','cyan');
+    [X1,Y1,Z1]=drawCircleSector(slabCone.smallCircleCenter,axis,cv,slabCone.base,180,'Color','cyan');
+    [X2,Y2,Z2]=drawCircleSector(slabCone.bigCircleCenter,axis,cv,slabCone.top,180,'Color','cyan');
 end
 if p.Results.drawCone
 
-    [X1,Y1,Z1]=createCircleSector(slabCone.smallCenter,cv,axis,radian,slabCone.base,m);
-    [X2,Y2,Z2]=createCircleSector(slabCone.bigCenter,cv,axis,radian,slabCone.top,m);
+    [X1,Y1,Z1]=createCircleSector(slabCone.smallCircleCenter,cv,axis,radian,slabCone.base,m);
+    [X2,Y2,Z2]=createCircleSector(slabCone.bigCircleCenter,cv,axis,radian,slabCone.top,m);
  
     drawCone(X1,Y1,Z1,X2,Y2,Z2,'mode',p.Results.mode,'FaceAlpha',p.Results.FaceAlpha,'FaceColor',p.Results.FaceColor);
     hold on;
     %draw the hidden part
-%     [X1,Y1,Z1]=createCircleSector(slabCone.smallCenter,-cv,axis,pi-radian,slabCone.base,m);
-%     [X2,Y2,Z2]=createCircleSector(slabCone.bigCenter,-cv,axis,pi-radian,slabCone.top,m);
+%     [X1,Y1,Z1]=createCircleSector(slabCone.smallCircleCenter,-cv,axis,pi-radian,slabCone.base,m);
+%     [X2,Y2,Z2]=createCircleSector(slabCone.bigCircleCenter,-cv,axis,pi-radian,slabCone.top,m);
 %     drawCone(X1,Y1,Z1,X2,Y2,Z2,n,'mode',p.Results.mode,'FaceAlpha',p.Results.FaceAlpha,'FaceColor','magenta');
 end
 if p.Results.drawLine
@@ -90,14 +90,14 @@ if p.Results.drawLine
     line([R1(1),R2(1)],[R1(2),R2(2)],[R1(3),R2(3)],'LineWidth',2,'Color','m');
 end
 %draw bounding box
-[b1,t1]=computeBoundBoxForDiscSector(slabCone.smallCenter,slabCone.base,axis,cv,radian);
-[b2,t2]=computeBoundBoxForDiscSector(slabCone.bigCenter,slabCone.top,axis,cv,radian);
+[b1,t1]=computeBoundBoxForDiscSector(slabCone.smallCircleCenter,slabCone.base,axis,cv,radian);
+[b2,t2]=computeBoundBoxForDiscSector(slabCone.bigCircleCenter,slabCone.top,axis,cv,radian);
 bottom1=[min(b1(1),b2(1)),min(b1(2),b2(2)),min(b1(3),b2(3))];
 top1=[max(t1(1),t2(1)),max(t1(2),t2(2)),max(t1(3),t2(3))];
 % draw3DBoundingBox(b1(1),b1(2),b1(3),t1(1),t1(2),t1(3),'color','green');
 % draw3DBoundingBox(b2(1),b2(2),b2(3),t2(1),t2(2),t2(3),'color','blue');
 % draw3DBoundingBox(bottom1(1),bottom1(2),bottom1(3),top1(1),top1(2),top1(3),'color','blue');
 % hold on;
-% [bottom2,top2]=computeBoundBoxForFrustumCone(slabCone.smallCenter,slabCone.base,slabCone.bigCenter,slabCone.top);
+% [bottom2,top2]=computeBoundBoxForFrustumCone(slabCone.smallCircleCenter,slabCone.base,slabCone.bigCircleCenter,slabCone.top);
 % draw3DBoundingBox(bottom2(1),bottom2(2),bottom2(3),top2(1),top2(2),top2(3),'color','red');
 end

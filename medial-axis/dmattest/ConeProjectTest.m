@@ -16,15 +16,16 @@ hold on;
 % w=[0.5,0,0];
 % w=[2.6,6,0];
 % w=[13.4,2,0];
-% w=[9,5,0];
-% w=[7.5,0,0];
+% w=[9,5,-2];
+%  w=[7.5,0,0];
 % w=[-0.5,0,0];
 % w=[-0.1,5,0];
 % w=[1.7,-1,0];
-% w=[3.5,0,0];
+% w=[3.5,0,2];
 w=[3.5,4,0];
 text(w(1),w(2),w(3),sprintf('$$w$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',18,'Color','red');
 [c,r,fp,signeddist,seg]=slabCone.project(w);
+disp(signeddist);
 if signeddist>0
     disp('outside!');
 else

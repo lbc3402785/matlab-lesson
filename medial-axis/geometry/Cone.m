@@ -26,7 +26,7 @@ classdef Cone
         function [c,r,fp,signeddist,seg]=project(cone,p)
             apexp = p - cone.smallCircleCenter;%小圆圆心指向顶点p
             apexpCaxis = cross(apexp,cone.axis);%顶点和圆锥轴构成的面的法向量
-            dp = dot(apexp,cone.axis);%顶点到smallCircleCenter的轴向距离
+            
             if(abs(norm(apexpCaxis)) ==0)
                 bw=cone.axis;
                 [bu,bv]=Utils.GenerateComplementBasis(bw);
@@ -64,8 +64,8 @@ classdef Cone
                 seg.draw();
                 if(cone.type==1)
                     
-                    c=(1.0-t)*cone.smallCircleCenter+ t*cone.bigCircleCenter;
-                    r=(1.0-t)*cone.base+ t*cone.top;
+                    c=(1.0-t)*cone.smallCenter+ t*cone.bigCenter;
+                    r=(1.0-t)*cone.smallRadius+ t*cone.bigRadius;
                     d=norm(p-c);
                     if(d>r)
                         signeddist=dist;
@@ -74,8 +74,8 @@ classdef Cone
                     end
                 else
                     %不需要考虑球
-                    c=dot((p-fp),(v0-cone.smallCenter));
-                    if(c>0)
+                    sign=dot((p-fp),(v0-cone.smallCenter));
+                    if(sign>0)
                         %在圆锥外面
                         signeddist=dist;
                     else

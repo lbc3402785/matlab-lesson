@@ -25,6 +25,7 @@ classdef Slab
         radian12
         radian13
         radian23
+        normal
     end
     methods
         function obj = Slab(c1,c2,c3,r1,r2,r3)
@@ -41,9 +42,9 @@ classdef Slab
         
         
         function [u,v,w,fp,signeddist]=project(slab,p)
-            tri1=Triangle(slab.V1_UP,slab.V2_UP,slab.V3_UP);
+            tri1=slab.st0;
             [u1,v1,w1,fp1,signeddist1]=tri1.project(p);
-            tri2=Triangle(slab.V1_DOWN,slab.V2_DOWN,slab.V3_DOWN);
+            tri2=slab.st1;
             [u2,v2,w2,fp2,signeddist2]=tri2.project(p);
             success1=(u1>=0&&u1<=1&&v1>=0&&v1<=1&&w1>=0&&w1<=1);
             success2=(u2>=0&&u2<=1&&v2>=0&&v2<=1&&w2>=0&&w2<=1);

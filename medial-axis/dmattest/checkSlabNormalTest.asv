@@ -1,0 +1,24 @@
+addpath(genpath('..'));
+addpath(genpath('..\geometry'));
+c1=[3,3,0];
+c2=[-3,-3,0];
+c3=[-2,2,0];
+
+
+
+r1=3;
+r2=3;
+r3=2;
+
+[slab,success]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,true,true,true,'FaceAlpha',0.5);
+p1=slab.st0.center();
+q1=p1+slab.st0.normal;
+
+p1=slab.st.center();
+q1=p1+slab.st0.normal;
+grid off;
+hold off;
+axis off;
+axis equal;
+light('Color',[0.8, 0.8, 0.8],'Position',[10 10 -10],'Style','infinite');
+camlight;
