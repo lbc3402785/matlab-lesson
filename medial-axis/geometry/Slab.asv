@@ -51,53 +51,7 @@ classdef Slab
                 success=false;
                 return;
             end
-            n12=cross(slab.tri.v2-slab.tri.v1,slab.n0);%³¬Íâ²à
-            if(dot(n12,p-slab.tri.v1)>0)
-                success=false;
-                return;
-            end
-            
-            n23=cross(slab.tri.v3-slab.tri.v2,slab.n0);%³¬Íâ²à
-            if(dot(n23,p-slab.tri.v2)>0)
-                success=false;
-                return;
-            end
-            
-            n31=cross(slab.tri.v1-slab.tri.v3,slab.n0);%³¬Íâ²à
-            if(dot(n31,p-slab.tri.v3)>0)
-                success=false;
-                return;
-            end
-            success=true;
-        end
-        
-        function [success]=InBottomPentahedron(slab,p)
-            if(dot(slab.tri.normal,p-slab.tri.v1)>0)
-                success=false;
-                return;
-            end
-            if(dot(slab.st0.normal,p-slab.st0.v1)<0)
-                success=false;
-                return;
-            end
-            n12=cross(slab.n1,slab.tri.v2-slab.tri.v1);%³¬Íâ²à
-            if(dot(n12,p-slab.tri.v1)>0)
-                success=false;
-                return;
-            end
-            
-            n23=cross(slab.n1,slab.tri.v3-slab.tri.v2);%³¬Íâ²à
-            if(dot(n23,p-slab.tri.v2)>0)
-                success=false;
-                return;
-            end
-            
-            n31=cross(slab.n1,slab.tri.v1-slab.tri.v3);%³¬Íâ²à
-            if(dot(n31,p-slab.tri.v3)>0)
-                success=false;
-                return;
-            end
-            success=true;
+            cross(slab.tri.c1-slab.c0,)
         end
         
         function [u,v,w,fp,signeddist]=project(slab,p)

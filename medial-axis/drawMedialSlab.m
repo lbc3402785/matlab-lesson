@@ -139,6 +139,15 @@ end
 slab.radian23=acos((dot(slab.cv23,t0)+dot(slab.cv23,t1))*0.5);
 %draw triangle
 if p.Results.drawTriangle
+    P=transpose([c1;c2;c3]);
+    X=P(1,:);
+    Y=P(2,:);
+    Z=P(3,:);
+    T=[1,2,3];
+    % trisurf(T,X,Y,Z,'FaceColor',[0,0.69,0.941],'FaceAlpha',1);
+    % trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',[0.3010 0.7450 0.9330],'FaceAlpha',1);
+    trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor','yellow','FaceAlpha',p.Results.FaceAlpha);
+    hold on;
     %--------------------------------------------------
     P=transpose([slab.V1_UP;slab.V2_UP;slab.V3_UP]);
     X=P(1,:);
