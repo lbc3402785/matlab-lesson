@@ -61,7 +61,7 @@ classdef Cone
             else
                 %fp = (1.0-t)*v0+ t*v1;
                 [t,fp,dist]=seg.project(p);%顶点在线段上的投影
-                seg.draw();
+%                 seg.draw();
                 if(cone.type==1)
                     
                     c=(1.0-t)*cone.smallCenter+ t*cone.bigCenter;

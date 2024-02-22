@@ -18,20 +18,31 @@ r3=2;
 % p=[-2,1,-4];
 % p=[2,-3,-4];
 % p=[0.5,0,0];
-p=[-1,1.5,0];
+% p=[-1,1.5,0];
+p=[-1,2.5,0];
 [u,v,w,fp,signeddist]=slab.project(p);
-% c=c1*u+c2*v+c3*w;
-% r=r1*u+r2*v+r3*w;
-% [x,y,z] = sphere(128);
-% x=x*r+c(1);
-% y=y*r+c(2);
-% z=z*r+c(3);
-% h = surf(x, y, z);
-% set(h,'FaceColor','yellow','FaceAlpha',1,'FaceLighting','gouraud','EdgeColor','none');%phong
+[success]=slab.InTopPentahedron(p);
+if success
+    disp('point In Top Pentahedron!');
+end
+[success]=slab.InBottomPentahedron(p);
+if success
+    disp('point In Bottom Pentahedron!');
+end
+c=c1*u+c2*v+c3*w;
+r=r1*u+r2*v+r3*w;
+[x,y,z] = sphere(128);
+x=x*r+c(1);
+y=y*r+c(2);
+z=z*r+c(3);
+h = surf(x, y, z);
+set(h,'FaceColor','yellow','FaceAlpha',1,'FaceLighting','gouraud','EdgeColor','none');%phong
 
 text(p(1),p(2),p(3),sprintf('$$p$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',18,'Color','red');
 text(fp(1),fp(2),fp(3),sprintf('$$fp$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',18,'Color','red');
 line([fp(1),p(1)],[fp(2),p(2)],[fp(3),p(3)],'LineStyle','-','LineWidth',2,'Color','red');
+plot3(p(1), p(2), p(3), 'o', 'MarkerSize', 10, 'MarkerEdgeColor', 'b', 'MarkerFaceColor', 'r');
+plot3(fp(1), fp(2), fp(3), 'o', 'MarkerSize', 10, 'MarkerEdgeColor', 'b', 'MarkerFaceColor', 'r');
 grid off;
 hold off;
 axis off;

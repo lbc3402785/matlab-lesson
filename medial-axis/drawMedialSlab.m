@@ -146,7 +146,7 @@ if p.Results.drawTriangle
     T=[1,2,3];
     % trisurf(T,X,Y,Z,'FaceColor',[0,0.69,0.941],'FaceAlpha',1);
     % trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',[0.3010 0.7450 0.9330],'FaceAlpha',1);
-    trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor','yellow','FaceAlpha',p.Results.FaceAlpha);
+    trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor','yellow','FaceAlpha',1);
     hold on;
     %--------------------------------------------------
     P=transpose([slab.V1_UP;slab.V2_UP;slab.V3_UP]);

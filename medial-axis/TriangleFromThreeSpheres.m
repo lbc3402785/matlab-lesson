@@ -1,4 +1,4 @@
-function [st0,st1,n0,n1,success]=TriangleFromThreeSpheres(c0,r0,c1,r1,c2,r2)
+function [n0,n1,success]=TriangleFromThreeSpheres(c0,r0,c1,r1,c2,r2)
 %函数的功能：
 %函数的描述：
 %函数的使用：y=func(input1,input2)

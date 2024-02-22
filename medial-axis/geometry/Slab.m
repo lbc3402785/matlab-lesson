@@ -76,7 +76,7 @@ classdef Slab
                 success=false;
                 return;
             end
-            if(dot(slab.st0.normal,p-slab.st0.v1)<0)
+            if(dot(slab.st1.normal,p-slab.st1.v1)>0)
                 success=false;
                 return;
             end
@@ -101,53 +101,62 @@ classdef Slab
         end
         
         function [u,v,w,fp,signeddist]=project(slab,p)
-            tri1=slab.st0;
-            [u1,v1,w1,fp1,signeddist1]=tri1.project(p);
-            tri2=slab.st1;
-            [u2,v2,w2,fp2,signeddist2]=tri2.project(p);
-            success1=(u1>=0&&u1<=1&&v1>=0&&v1<=1&&w1>=0&&w1<=1);
-            success2=(u2>=0&&u2<=1&&v2>=0&&v2<=1&&w2>=0&&w2<=1);
-            if(success1&&success2)
-                if(signeddist1<signeddist2)
+            if(dot(slab.tri.normal,p-slab.tri.v1)>=0)
+                %上半部分
+                tri1=slab.st0;
+                [u1,v1,w1,fp1,signeddist1]=tri1.project(p);
+                success1=(u1>=0&&u1<=1&&v1>=0&&v1<=1&&w1>=0&&w1<=1);
+                if success1
+                    if(dot(p-fp1,tri1.normal)<0)
+                        signeddist1=signeddist1*(-1);
+                    end
                     fp=fp1;
                     u=u1;
                     v=v1;
                     w=w1;
                     signeddist=signeddist1;
-                else
+                    return;
+                end
+            else
+                %下半部分
+                tri2=slab.st1;
+                [u2,v2,w2,fp2,signeddist2]=tri2.project(p);
+
+                success2=(u2>=0&&u2<=1&&v2>=0&&v2<=1&&w2>=0&&w2<=1);
+                if success2
+                    if(dot(p-fp2,tri2.normal)<0)
+                        signeddist2=signeddist2*(-1);
+                    end
                     fp=fp2;
                     u=u2;
                     v=v2;
                     w=w2;
                     signeddist=signeddist2;
-                end
-                return;
-            else
-                [c12,r12,fp12,signeddist12,~]=slab.slabCone12.project(p);
-                [c13,r13,fp13,signeddist13,~]=slab.slabCone13.project(p);
-                [c23,r23,fp23,signeddist23,~]=slab.slabCone23.project(p);
-                if(signeddist12<=signeddist13&&signeddist12<=signeddist23)
-                    fp=fp12;
-                    signeddist=signeddist12;
-                    u=1-norm(c12-slab.c1)/norm(slab.c2-slab.c1);
-                    v=1-u;
-                    w=0;
-                elseif(signeddist12>=signeddist13&&signeddist13<=signeddist23)
-                    fp=fp13;
-                    signeddist=signeddist13;
-                    u=1-norm(c13-slab.c1)/norm(slab.c3-slab.c1);
-                    v=0;
-                    w=1-u;
-                else
-                    fp=fp23;
-                    signeddist=signeddist23;
-                    u=0;
-                    v=1-norm(c23-slab.c2)/norm(slab.c3-slab.c2);
-                    w=1-v;
+                    return;
                 end
             end
-                
-            
+            [c12,r12,fp12,signeddist12,~]=slab.slabCone12.project(p);
+            [c13,r13,fp13,signeddist13,~]=slab.slabCone13.project(p);
+            [c23,r23,fp23,signeddist23,~]=slab.slabCone23.project(p);
+            if(abs(signeddist12)<=abs(signeddist13)&&abs(signeddist12)<=abs(signeddist23))
+                fp=fp12;
+                signeddist=signeddist12;
+                u=1-norm(c12-slab.c1)/norm(slab.c2-slab.c1);
+                v=1-u;
+                w=0;
+            elseif(abs(signeddist12)>=abs(signeddist13)&&abs(signeddist13)<=abs(signeddist23))
+                fp=fp13;
+                signeddist=signeddist13;
+                u=1-norm(c13-slab.c1)/norm(slab.c3-slab.c1);
+                v=0;
+                w=1-u;
+            else
+                fp=fp23;
+                signeddist=signeddist23;
+                u=0;
+                v=1-norm(c23-slab.c2)/norm(slab.c3-slab.c2);
+                w=1-v;
+            end 
         end
         
     end

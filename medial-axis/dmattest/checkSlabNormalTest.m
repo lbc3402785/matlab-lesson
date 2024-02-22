@@ -6,9 +6,9 @@ c3=[0,10,0];
 
 
 
-r1=6;
-r2=8;
-r3=2;
+r1=2;
+r2=2;
+r3=6;
 
 [slab,success]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,true,true,true,'FaceAlpha',0.5);
 p0=slab.st0.center();
