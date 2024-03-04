@@ -158,6 +158,12 @@ classdef Slab
                 w=1-v;
             end 
         end
-        
+        function [bd]=getBounds(slab)
+            s1=Sphere(slab.c1,slab.r1);
+            s2=Sphere(slab.c2,slab.r2);
+            s3=Sphere(slab.c3,slab.r3);
+            bd=Union(s1.getBounds(),s2.getBounds());
+            bd=Union(bd,s3.getBounds());
+        end
     end
 end

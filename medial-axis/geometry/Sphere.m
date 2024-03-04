@@ -35,5 +35,9 @@ classdef Sphere
                 signeddist=norm(p-fp);
             end
         end
+        function [bd]=getBounds(sphere)
+            bd=Bounds3([sphere.center(1)-sphere.radius, sphere.center(2)-sphere.radius, sphere.center(3)-sphere.radius], ...
+                       [sphere.center(1)+sphere.radius, sphere.center(2)+sphere.radius, sphere.center(3)+sphere.radius]);
+        end
     end
 end

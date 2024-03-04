@@ -114,6 +114,11 @@ classdef Cone
                 interior=false;
             end
         end
+        function [bd]=getBounds(cone)
+            s0=Sphere(cone.smallCenter,cone.smallRadius);
+            s1=Sphere(cone.bigCenter,cone.bigRadius);
+            bd=Union(s0.getBounds(),s1.getBounds());
+        end
     end
 end
 % define a non-member function
