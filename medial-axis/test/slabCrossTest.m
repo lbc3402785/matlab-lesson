@@ -26,7 +26,10 @@ fn=fn/norm(fn);
 
 
 %[V1_UP,V1_DOWN,O1,A1,B1,V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,false,false,false);
-[V1_UP,V1_DOWN,V2_UP,V2_DOWN,V3_UP,V3_DOWN]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,true,true,true,'FaceColor','red');
+[slab,success]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,true,true,true,'FaceColor','red');
+V1_UP=slab.V1_UP;
+V2_UP=slab.V2_UP;
+V3_UP=slab.V3_UP;
 tri=Triangle(V1_UP,V2_UP,V3_UP);
 
 % text(V1_UP(1)-fn(1)*0.1,V1_UP(2)-fn(2)*0.1,V1_UP(3)-fn(3)*0.1,sprintf('$$V_{1}$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',12,'Color','red');
@@ -39,7 +42,13 @@ tri=Triangle(V1_UP,V2_UP,V3_UP);
 % c14=c4-c1;
 % fn=cross(c14,c12);
 % fn=fn/norm(fn);
-[V2_UP,V2_DOWN,V3_UP,V3_DOWN,V4_UP,V4_DOWN]=drawMedialSlab(c2,c3,c4,r2,r3,r4,180,64,true,true,true,'FaceColor','blue');
+[slab,success]=drawMedialSlab(c2,c3,c4,r2,r3,r4,180,64,true,true,true,'FaceColor','blue');
+V1_UP=slab.V1_UP;
+V2_UP=slab.V2_UP;
+V4_UP=slab.V3_UP;
+V1_DOWN=slab.V1_DOWN;
+V2_DOWN=slab.V2_DOWN;
+V4_DOWN=slab.V3_DOWN;
 % v23=V3_UP-V2_UP;
 % v24=V4_UP-V2_UP;
 % fn=cross(v23,v24);

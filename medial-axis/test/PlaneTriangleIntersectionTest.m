@@ -19,7 +19,13 @@ fn=fn/norm(fn);
 
 
 % [V1_UP,V1_DOWN,O1,A1,B1,V2_UP,V2_DOWN,O2,A2,B2,V3_UP,V3_DOWN,O3,A3,B3]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,false,false,false);
-[V1_UP,V1_DOWN,V2_UP,V2_DOWN,V3_UP,V3_DOWN]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,true,true,true,'FaceColor','red','drawSphere',false);
+[slab,success]=drawMedialSlab(c1,c2,c3,r1,r2,r3,180,64,true,true,true,'FaceColor','red','drawSphere',false);
+V1_UP=slab.V1_UP;
+V2_UP=slab.V2_UP;
+V3_UP=slab.V3_UP;
+V1_DOWN=slab.V1_DOWN;
+V2_DOWN=slab.V2_DOWN;
+V3_DOWN=slab.V3_DOWN;
 text(V1_UP(1)-fn(1)*0.1,V1_UP(2)-fn(2)*0.1,V1_UP(3)-fn(3)*0.1,sprintf('$$V_{1}$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',12,'Color','red');
 text(V1_DOWN(1)+fn(1)*0.1,V1_DOWN(2)+fn(2)*0.1,V1_DOWN(3)+fn(3)*0.1,sprintf('$$V_{1}^{t}$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',12,'Color','red');
 text(V2_UP(1)-fn(1)*0.1,V2_UP(2)-fn(2)*0.1,V2_UP(3)-fn(3)*0.1,sprintf('$$V_{2}$$'),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',12,'Color','red');
@@ -30,7 +36,13 @@ text(V3_DOWN(1)+fn(1)*0.1,V3_DOWN(2)+fn(2)*0.1,V3_DOWN(3)+fn(3)*0.1,sprintf('$$V
 tri=Triangle(V1_UP,V2_UP,V3_UP);
 
 
-[V1_UP,V1_DOWN,V2_UP,V2_DOWN,V4_UP,V4_DOWN]=drawMedialSlab(c1,c2,c4,r1,r2,r4,180,64,false,false,false,'FaceColor','blue','drawSphere',false);
+[slab,success]=drawMedialSlab(c1,c2,c4,r1,r2,r4,180,64,false,false,false,'FaceColor','blue','drawSphere',false);
+V1_UP=slab.V1_UP;
+V2_UP=slab.V2_UP;
+V4_UP=slab.V3_UP;
+V1_DOWN=slab.V1_DOWN;
+V2_DOWN=slab.V2_DOWN;
+V4_DOWN=slab.V3_DOWN;
 v14=V4_UP-V1_UP;
 v12=V2_UP-V1_UP;
 fn=cross(v14,v12);

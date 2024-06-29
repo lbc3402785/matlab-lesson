@@ -1,0 +1,21 @@
+A0=[1.5, -2];
+B0=[2, -1.5];
+C0=[1,-1.8];
+A=[0, 0];
+B=[9, 8];
+C=[-2,6];
+h1=figure(1);
+hAx1 = axes('Parent', h1);
+h2=figure(2);
+hAx2 = axes('Parent', h2);
+h3=figure(3);
+hAx3= axes('Parent', h3);
+points=subdivide(hAx1,hAx2,hAx3,A0,B0,C0,A,B,C,'A','B','C','O');
+t=delaunay(points(:,1),points(:,2));
+
+hold on;
+title('Output Triangulation','fontsize',14)
+axis(hequal);
+triplot(t,points(:,1),points(:,2),'color','b')%plot della superficie trattata
+
+%view(-37.5,30);
