@@ -38,11 +38,11 @@ for i = 1:length(tets)
     % 计算外心
     centers(i, :) = calculateCircumcenter(vertices(1, :), vertices(2, :), vertices(3, :), vertices(4, :));
     ci=centers(i,:);
-    text(ci(1),ci(2),ci(3),sprintf('$$m_{%i}$$',i),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',15,'Color','blue');
+    text(ci(1)+0.01,ci(2)+0.3,ci(3),sprintf('$$m_{%i}$$',i),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',15,'Color','blue');
 end
 
 % 绘制外心
-plot3(centers(:, 1), centers(:, 2), centers(:, 3), 'ko', 'MarkerSize', 8, 'MarkerFaceColor', 'k');
+plot3(centers(:, 1), centers(:, 2), centers(:, 3), 'ko', 'MarkerSize', 4, 'MarkerFaceColor', 'k');
 for i=1:length(tets)-1
     ci=centers(i,:);
     ci1=centers(i+1,:);

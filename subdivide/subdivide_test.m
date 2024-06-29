@@ -1,41 +1,33 @@
-A0=[1.5, -2];
-B0=[2, -1.5];
-C0=[1,-1.8];
-A=[0, 0];
-B=[9, 8];
-C=[-2,6];
-h1=figure(1);
+A0 = [5.5, -6];
+B0 = [8, -4.5];
+C0 = [5, -4.8];
+A = [-2, -2];
+B = [5, -4.8];
+C = [12, -1];
+D=[8, -4.5];
+E=[1, -8];
+F=[10, -9];
+G=[5.5, -6];
+
+h1 = figure(1);
 hAx1 = axes('Parent', h1);
-h2=figure(2);
+
+h2 = figure(2);
 hAx2 = axes('Parent', h2);
-points=subdivide(hAx1,hAx2,A0,B0,C0,A,B,C,'A','B','C','O');
-t=delaunay(points(:,1),points(:,2));
-figure(3);
-hold on;
-title('Output Triangulation','fontsize',14)
-axis equal;
-triplot(t,points(:,1),points(:,2),'color','b')%plot della superficie trattata
-for i=1:N
-    OAi=-AO*i/N;
-    Ai=O+OAi;
-    OBi=-BO*i/N;
-    Bi=O+OBi;
-    OCi=-CO*i/N;
-    Ci=O+OCi;
-    line([Ai(1),Bi(1)],[Ai(2),Bi(2)],'color','cyan','LineStyle','-','LineWidth',2);
-    line([Ai(1),Ci(1)],[Ai(2),Ci(2)],'color','cyan','LineStyle','-','LineWidth',2);
-    line([Bi(1),Ci(1)],[Bi(2),Ci(2)],'color','cyan','LineStyle','-','LineWidth',2);
-end
-plot(O(1),O(2),'o','color','red');
-text(O(1),O(2),'O','HorizontalAlignment','left','FontSize',12);
-plot(A(1),A(2),'o');
-plot(B(1),B(2),'o');
-plot(C(1),C(2),'o');
-text(A(1),A(2),'A','HorizontalAlignment','left','FontSize',12);
-text(B(1),B(2),'B','HorizontalAlignment','left','FontSize',12);
-text(C(1),C(2),'C','HorizontalAlignment','left','FontSize',12);
-line([A0(1),B0(1)],[A0(2),B0(2)],'color','red','LineStyle','-','LineWidth',2);
-line([A0(1),C0(1)],[A0(2),C0(2)],'color','red','LineStyle','-','LineWidth',2);
-line([B0(1),C0(1)],[B0(2),C0(2)],'color','red','LineStyle','-','LineWidth',2);
-axis off;
-%view(-37.5,30);
+
+h3 = figure(3);
+hAx3 = axes('Parent', h3);
+
+points1 = subdivide(hAx1, hAx2, hAx3, A0, B0, C0, A, B, C, 'A', 'B', 'C', 'O1');
+points2 = subdivide(hAx1, hAx2, hAx3, A0, B0, C0, C, B, D, 'C', 'B', 'D', 'O2');
+points3 = subdivide(hAx1, hAx2, hAx3, A0, B0, C0, A, E, B, 'A', 'E', 'B', 'O3');
+points4 = subdivide(hAx1, hAx2, hAx3, A0, B0, C0, C, D, F, 'C', 'D', 'F', 'O4');
+points5 = subdivide(hAx1, hAx2, hAx3, A0, B0, C0, F, D, G, 'F', 'D', 'G', 'O5');
+points6 = subdivide(hAx1, hAx2, hAx3, A0, B0, C0, B, E, G, 'B', 'E', 'G', 'O6');
+points7 = subdivide(hAx1, hAx2, hAx3, A0, B0, C0, E, F, G, 'E', 'F', 'G', 'O7');
+points8 = subdivide(hAx1, hAx2, hAx3, A0, B0, C0, B, G, D, 'B', 'G', 'D', 'O8');
+hold(hAx3, 'on');
+line(hAx3, [A0(1), B0(1)], [A0(2), B0(2)], 'color', 'red', 'LineStyle', '-', 'LineWidth', 2);
+line(hAx3, [A0(1), C0(1)], [A0(2), C0(2)], 'color', 'red', 'LineStyle', '-', 'LineWidth', 2);
+line(hAx3, [B0(1), C0(1)], [B0(2), C0(2)], 'color', 'red', 'LineStyle', '-', 'LineWidth', 2);
+hold(hAx3, 'off');
