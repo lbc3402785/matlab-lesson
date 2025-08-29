@@ -13,9 +13,9 @@ hold on;
 axis equal;
 % 绘制四面体的四个面
 patch('Vertices', tet1, 'Faces', [1 2 3; 1 2 4; 2 3 4; 1 3 4], ...
-          'FaceColor', rand(1,3), 'FaceAlpha', 0.1);
+          'FaceColor', rand(1,3), 'FaceAlpha', 0.1, 'EdgeColor', 'none');
 patch('Vertices', tet2, 'Faces', [1 2 3; 1 2 4; 2 3 4; 1 3 4], ...
-          'FaceColor', rand(1,3), 'FaceAlpha', 0.1);
+          'FaceColor', rand(1,3), 'FaceAlpha', 0.1, 'EdgeColor', 'none');
 center1=calculateCircumcenter(tet1(1, :), tet1(2, :), tet1(3, :), tet1(4, :));
 center2=calculateCircumcenter(tet2(1, :), tet2(2, :), tet2(3, :), tet2(4, :));
 plot3(center1(:, 1), center1(:, 2), center1(:, 3), 'ko', 'MarkerSize', 4, 'MarkerFaceColor', 'k');
@@ -30,6 +30,21 @@ text(F(1),F(2),F(3),'F','Interpreter', 'latex','HorizontalAlignment','left','Fon
 text(G(1),G(2),G(3),'G','Interpreter', 'latex','HorizontalAlignment','left','FontSize',15,'Color','blue');
 text(center1(1),center1(2),center1(3),sprintf('$$O_{%i}$$',1),'Interpreter', 'latex','HorizontalAlignment','right','FontSize',15,'Color','blue');
 text(center2(1),center2(2),center2(3),sprintf('$$O_{%i}$$',2),'Interpreter', 'latex','HorizontalAlignment','left','FontSize',15,'Color','blue');
+
+line([B(1),C(1)],[B(2),C(2)],[B(3),C(3)],'LineStyle','-','LineWidth',2,'Color','black');
+line([B(1),A(1)],[B(2),A(2)],[B(3),A(3)],'LineStyle','-','LineWidth',2,'Color','black');
+line([E(1),A(1)],[E(2),A(2)],[E(3),A(3)],'LineStyle','-','LineWidth',2,'Color','black');
+line([E(1),F(1)],[E(2),F(2)],[E(3),F(3)],'LineStyle','-','LineWidth',2,'Color','black');
+line([A(1),C(1)],[A(2),C(2)],[A(3),C(3)],'LineStyle','-','LineWidth',2,'Color','black');
+line([A(1),F(1)],[A(2),F(2)],[A(3),F(3)],'LineStyle','-','LineWidth',2,'Color','black');
+
+line([D(1),C(1)],[D(2),C(2)],[D(3),C(3)],'LineStyle','--','LineWidth',2,'Color','black');
+line([D(1),A(1)],[D(2),A(2)],[D(3),A(3)],'LineStyle','--','LineWidth',2,'Color','black');
+line([G(1),A(1)],[G(2),A(2)],[G(3),A(3)],'LineStyle','--','LineWidth',2,'Color','black');
+line([G(1),F(1)],[G(2),F(2)],[G(3),F(3)],'LineStyle','--','LineWidth',2,'Color','black');
+line([G(1),E(1)],[G(2),E(2)],[G(3),E(3)],'LineStyle','--','LineWidth',2,'Color','black');
+line([B(1),D(1)],[B(2),D(2)],[B(3),D(3)],'LineStyle','--','LineWidth',2,'Color','black');
+
 
 line([center1(1),center2(1)],[center1(2),center2(2)],[center1(3),center2(3)],'LineStyle','-','LineWidth',2,'Color','red');
 line([center1(1),A(1)],[center1(2),A(2)],[center1(3),A(3)],'LineStyle','-','LineWidth',2,'Color','red');

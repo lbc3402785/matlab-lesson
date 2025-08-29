@@ -40,6 +40,47 @@ classdef Triangle
             top=[max(top(1),tri.v3(1)),max(top(2),tri.v3(2)),max(top(3),tri.v3(3))];
             bd=Bounds3(bottom,top);
         end
+        function [fp]=projToTri(tri,p)
+            p2p1=tri.v2-tri.v1;
+            p3p2=tri.v3-tri.v2;
+            p1p3=tri.v1-tri.v3;
+            s1=dot(cross(p2p1,(p-tri.v1)),tri.normal);
+            if(s1>=0)
+                s2=dot(cross(p3p2,(p-tri.v2)),tri.normal);
+                s3=dot(cross(p1p3,(p-tri.v3)),tri.normal);
+                if(s2>=0&&s3>=0)
+                    seg12=Segment(tri.v1,tri.v2);
+                    if(norm(tri.normal)==0)
+                        [t,fp,dist]=project(seg12,p);
+                        return;
+                    end
+                    proj=dot((p-tri.v3),tri.normal);
+                    fp=p-(proj/norm(tri.normal))*tri.normal;
+                    return;
+                end
+                if(s3<0&&(s2>=0||dot(p-tri.v3,-p1p3)>=0))
+                    seg13=Segment(tri.v1,tri.v3);
+                    [t,fp,dist]=project(seg13,p);
+                    return;
+                end
+                seg23=Segment(tri.v2,tri.v3);
+                [t,fp,dist]=project(seg23,p);
+                return;
+            end
+            if(dot(p-tri.v1,p2p1)<0)
+                seg31=Segment(tri.v3,tri.v1)
+                [t,fp,dist]=project(seg31,p);
+                return
+            end
+            if(dot(p-tri.v2,p2p1)>0)
+                seg23=Segment(tri.v2,tri.v3);
+                [t,fp,dist]=project(seg23,p);
+                return
+            end
+            seg12=Segment(tri.v1,tri.v2);
+            [t,fp,dist]=project(seg12,p);
+            return
+        end
         function [u,v,w,fp,signeddist]=project(tri,p)
             fp=p-dot((p-tri.v1),tri.normal)*tri.normal;
             m=0;
@@ -76,10 +117,11 @@ classdef Triangle
                 end
             end
         end
-        function draw(tri)
-%             line([tri.v1(1),tri.v2(1)],[tri.v1(2),tri.v2(2)],[tri.v1(3),tri.v2(3)],'LineStyle','-','LineWidth',1,'Color','blue');
-%             line([tri.v1(1),tri.v3(1)],[tri.v1(2),tri.v3(2)],[tri.v1(3),tri.v3(3)],'LineStyle','-','LineWidth',1,'Color','blue');
-%             line([tri.v2(1),tri.v3(1)],[tri.v2(2),tri.v3(2)],[tri.v2(3),tri.v3(3)],'LineStyle','-','LineWidth',1,'Color','blue');
+        function draw(tri,alpha)
+            % 设置默认值
+            if nargin < 2
+                alpha = 1.0; % 默认值
+            end
             P=transpose([tri.v1;tri.v2;tri.v3]);
             X=P(1,:);
             Y=P(2,:);
@@ -87,7 +129,7 @@ classdef Triangle
             T=[1,2,3];
             % trisurf(T,X,Y,Z,'FaceColor',[0,0.69,0.941],'FaceAlpha',1);
             % trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',[0.3010 0.7450 0.9330],'FaceAlpha',1);
-            trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',[0.3010 0.7450 0.9330],'FaceAlpha',1);
+            trisurf(T,X,Y,Z,'EdgeColor','none','FaceColor',[0.3010 0.7450 0.9330],'FaceAlpha',alpha);
             hold on;
         end
         function drawInscribedCircle(tri)

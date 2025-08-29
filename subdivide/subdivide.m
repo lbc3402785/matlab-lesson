@@ -43,18 +43,13 @@ CO=O-C;
 N1=round(norm(A-B)/delta);
 N2=round(norm(A-C)/delta);
 N3=round(norm(B-C)/delta);
-N=round(log2(min([N1,N2,N3])))-1;
+N=round(log2(min([N1,N2,N3])));
 
 %========figure 2========
 if ~isempty(hAx2) && isgraphics(hAx2, 'axes')
     hold(hAx2, 'on');
     title(hAx2, 'Output Points', 'fontsize', 14);
     axis(hAx2, 'equal');
-    plot(hAx2, O(1), O(2), 'o', 'color', 'red');
-    text(hAx2, O(1), O(2), strO, 'HorizontalAlignment', 'left', 'FontSize', 12);
-    text(hAx2, A(1), A(2), strA, 'HorizontalAlignment', 'left', 'FontSize', 12);
-    text(hAx2, B(1), B(2), strB, 'HorizontalAlignment', 'left', 'FontSize', 12);
-    text(hAx2, C(1), C(2), strC, 'HorizontalAlignment', 'left', 'FontSize', 12);
 end
 
 % for i=1:N
@@ -122,9 +117,7 @@ for i=1:N-1
     line(hAx2,[Ai(1),Bi(1)],[Ai(2),Bi(2)],'color','yellow','LineStyle','-','LineWidth',1);
     line(hAx2,[Ai(1),Ci(1)],[Ai(2),Ci(2)],'color','yellow','LineStyle','-','LineWidth',1);
     line(hAx2,[Bi(1),Ci(1)],[Bi(2),Ci(2)],'color','yellow','LineStyle','-','LineWidth',1);
-    if i<N
-        points=[points;Ai;Bi;Ci];
-    end
+    points=[points;Ai;Bi;Ci];
     MI=2^(N-i);
     k1=fix(N1/MI);
     k2=fix(N2/MI);
@@ -145,14 +138,21 @@ for i=1:N-1
         plot(hAx2,pij(1),pij(2),'x');
     end
 end
-
+line(hAx2, [A(1), B(1)], [A(2), B(2)], 'color', 'cyan', 'LineStyle', '-', 'LineWidth', 2);
+line(hAx2, [A(1), C(1)], [A(2), C(2)], 'color', 'cyan', 'LineStyle', '-', 'LineWidth', 2);
+line(hAx2, [B(1), C(1)], [B(2), C(2)], 'color', 'cyan', 'LineStyle', '-', 'LineWidth', 2);
 if ~isempty(hAx2) && isgraphics(hAx2, 'axes')
-    plot(hAx2, A(1), A(2), 'o');
-    plot(hAx2, B(1), B(2), 'o');
-    plot(hAx2, C(1), C(2), 'o');
     line(hAx2, [A0(1), B0(1)], [A0(2), B0(2)], 'color', 'red', 'LineStyle', '-', 'LineWidth', 2);
     line(hAx2, [A0(1), C0(1)], [A0(2), C0(2)], 'color', 'red', 'LineStyle', '-', 'LineWidth', 2);
     line(hAx2, [B0(1), C0(1)], [B0(2), C0(2)], 'color', 'red', 'LineStyle', '-', 'LineWidth', 2);
+    plot(hAx2, O(1), O(2), 'o', 'color', 'red');
+    text(hAx2, O(1), O(2), strO,'Interpreter', 'latex', 'HorizontalAlignment', 'left', 'FontSize', 12);
+    plot(hAx2, A(1), A(2), 'o');
+    plot(hAx2, B(1), B(2), 'o');
+    plot(hAx2, C(1), C(2), 'o');
+    text(hAx2, A(1), A(2), strA, 'HorizontalAlignment', 'left', 'FontSize', 12);
+    text(hAx2, B(1), B(2), strB, 'HorizontalAlignment', 'left', 'FontSize', 12);
+    text(hAx2, C(1), C(2), strC, 'HorizontalAlignment', 'left', 'FontSize', 12);
     axis(hAx2, 'off');
     hold(hAx2, 'off');
 end
@@ -181,7 +181,7 @@ if ~isempty(hAx3) && isgraphics(hAx3, 'axes')
     line(hAx3, [A(1), C(1)], [A(2), C(2)], 'color', 'cyan', 'LineStyle', '-', 'LineWidth', 2);
     line(hAx3, [B(1), C(1)], [B(2), C(2)], 'color', 'cyan', 'LineStyle', '-', 'LineWidth', 2);
     plot(hAx3, O(1), O(2), 'o', 'color', 'red');
-    text(hAx3, O(1), O(2), strO, 'HorizontalAlignment', 'left', 'FontSize', 12);
+    text(hAx3, O(1), O(2), strO,'Interpreter', 'latex', 'HorizontalAlignment', 'left', 'FontSize', 12);
     plot(hAx3, A(1), A(2), 'o');
     plot(hAx3, B(1), B(2), 'o');
     plot(hAx3, C(1), C(2), 'o');
